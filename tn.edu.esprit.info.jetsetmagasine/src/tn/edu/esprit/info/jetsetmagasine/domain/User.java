@@ -1,6 +1,6 @@
 package tn.edu.esprit.info.jetsetmagasine.domain;
 
-public class Utilisateur {
+public class User {
 
 	private int id_auto;
 	private String login;
@@ -8,11 +8,11 @@ public class Utilisateur {
 	private String nom_prenom;
 	private String email;
 	
-	public Utilisateur() {
+	public User() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Utilisateur(int id_auto, String login, String password,
+	public User(int id_auto, String login, String password,
 			String nom_prenom, String email) {
 		super();
 		this.id_auto = id_auto;
