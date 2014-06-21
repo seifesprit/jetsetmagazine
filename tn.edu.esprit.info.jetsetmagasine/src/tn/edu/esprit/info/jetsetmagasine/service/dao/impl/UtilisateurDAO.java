@@ -1,4 +1,4 @@
-package tn.edu.esprit.info.jetsetmagasine.service.impl;
+package tn.edu.esprit.info.jetsetmagasine.service.dao.impl;
 
 import java.sql.Connection;
 import java.sql.SQLException;
