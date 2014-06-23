@@ -2,11 +2,15 @@ package tn.edu.esprit.info.jetsetmagasine.services.dao.interfaces;
 
 import java.util.List;
 
-public interface IDaoGenerique<Object,Integer> {
-	
-	boolean add(Object object);
-	boolean update(Object object);
-	boolean remove(Object object);
-	List<Object> list();
-	Object findById(Integer integer);
+public interface IDaoGenerique<T> {
+
+	boolean add(T object);
+
+	boolean update(T object);
+
+	boolean remove(T object);
+
+	List<T> findAll();
+
+	T findById(Integer id);
 }

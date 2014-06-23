@@ -9,22 +9,22 @@ import tn.edu.esprit.info.jetsetmagasine.domain.User;
 import tn.edu.esprit.info.jetsetmagasine.services.dao.interfaces.IDaoGenerique;
 import tn.edu.esprit.info.jetsetmagasine.utilities.DataBaseConnection;
 
-public class UserDAO implements IDaoGenerique<User, Integer> {
+public class UserDAO implements IDaoGenerique<User> {
 
-	public void utilisateurAdd(User utilisateur) {
-
+	@Override
+	public boolean add(User user) {
 		Connection connection = DataBaseConnection.giveMyconnection();
 
 		try {
 			Statement statement = connection.createStatement();
 			String sql = "insert into user (nom_prenom,login,password,email)values("
-					+ "'"+ utilisateur.getNom_prenom()+ "',"
-					+ "'"+ utilisateur.getLogin() + "',"
-					+ "'"+utilisateur.getPassword()+"',"
-					+ "'"+utilisateur.getEmail()+"')";
+					+ "'"+ user.getNom_prenom()+ "',"
+					+ "'"+ user.getLogin() + "',"
+					+ "'"+user.getPassword()+"',"
+					+ "'"+user.getEmail()+"')";
 
 			statement.executeUpdate(sql);
-
+			return true;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -37,12 +37,7 @@ public class UserDAO implements IDaoGenerique<User, Integer> {
 				e.printStackTrace();
 			}
 		}
-
-	}
-
-	@Override
-	public boolean add(User object) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
@@ -59,17 +54,16 @@ public class UserDAO implements IDaoGenerique<User, Integer> {
 	}
 
 	@Override
-	public List<User> list() {
+	public List<User> findAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public User findById(Integer integer) {
+	public User findById(Integer id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	
 	
 }
