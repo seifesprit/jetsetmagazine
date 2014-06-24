@@ -9,8 +9,14 @@ import tn.edu.esprit.info.jetsetmagasine.domain.User;
 import tn.edu.esprit.info.jetsetmagasine.services.dao.interfaces.IDaoGenerique;
 import tn.edu.esprit.info.jetsetmagasine.utilities.DataBaseConnection;
 
-public class UserDAO implements IDaoGenerique<User> {
+public class UserDao implements IDaoGenerique<User> {
 
+	public static UserDao intanceof;
+	
+	private UserDao() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	@Override
 	public boolean add(User user) {
 		Connection connection = DataBaseConnection.giveMyconnection();
@@ -64,6 +70,13 @@ public class UserDAO implements IDaoGenerique<User> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	
+	public UserDao getInstanceof(){
+		
+		if(intanceof == null){
+			intanceof = new UserDao();	
+		}
+		return intanceof;
+		
+	}
 }

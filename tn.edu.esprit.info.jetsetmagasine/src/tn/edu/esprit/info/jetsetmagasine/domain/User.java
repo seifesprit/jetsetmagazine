@@ -1,6 +1,6 @@
 package tn.edu.esprit.info.jetsetmagasine.domain;
 
-public class User {
+public abstract class User {
 
 	private int id_auto;
 	private String login;
