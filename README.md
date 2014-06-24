@@ -1,5 +1,12 @@
 jetsetmagazine
 ==============
+
+Conception : visual paradigme for UML
+
+Lien : http://www.commentcamarche.net/download/telecharger-34058460-visual-paradigm-for-uml-enterprise-edition
+
+===============================================
+
 Jetset Magazine influences the readers on their purchasing decisions significantly. With reviews on subjects such as real estate, travel, fashion, jewelry, aviation, boating and cars, Jetset guide readers through a virtual experience in print and online .
 
 
