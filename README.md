@@ -3,7 +3,7 @@ jetsetmagazine
 
 Conception : visual paradigme for UML
 
-Lien : http://www.commentcamarche.net/download/telecharger-34058460-visual-paradigm-for-uml-enterprise-edition
+Link : http://www.commentcamarche.net/download/telecharger-34058460-visual-paradigm-for-uml-enterprise-edition
 
 ===============================================
 
