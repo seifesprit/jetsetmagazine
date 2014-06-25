@@ -71,7 +71,7 @@ public class UserDao implements IDaoGenerique<User> {
 		return null;
 	}
 	
-	public UserDao getInstanceof(){
+	public static UserDao getInstanceof(){
 		
 		if(intanceof == null){
 			intanceof = new UserDao();	
