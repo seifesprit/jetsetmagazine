@@ -8,6 +8,5 @@ public class Leader extends User {
 	public Leader(int id_auto, String login, String password,
 			String nom_prenom, String email) {
 		super(id_auto, login, password, nom_prenom, email);
-		// TODO Auto-generated constructor stub
 	}
 }
