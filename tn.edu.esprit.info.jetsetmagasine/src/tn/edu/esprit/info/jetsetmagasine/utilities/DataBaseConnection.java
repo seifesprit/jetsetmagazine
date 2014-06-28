@@ -7,7 +7,8 @@ import java.sql.SQLException;
 public class DataBaseConnection {
 
 	private static Connection myConnetion;
-	private static String url="jdbc:mysql://localhost:3306/jdbc?allowMultiQueries=true";
+	private static String db_name = "jetsetmagasine";
+	private static String url="jdbc:mysql://localhost:3306/"+db_name+"?allowMultiQueries=true";
 	private static String user = "root";
 	private static String password = "";
 

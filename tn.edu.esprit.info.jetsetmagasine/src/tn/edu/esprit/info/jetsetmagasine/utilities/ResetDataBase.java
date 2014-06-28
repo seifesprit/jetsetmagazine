@@ -1,42 +1,67 @@
 package tn.edu.esprit.info.jetsetmagasine.utilities;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ResetDataBase {
 
-	public static String sql = "drop table user; create table user("
-			+ "id_auto int(11) NOT NULL AUTO_INCREMENT,"
-			+ "`nom_prenom` varchar(255) NOT NULL,"
-			+ " `login` varchar(255) NOT NULL,"
-			+ " `password` varchar(255) NOT NULL,"
-			+ "`email` varchar(255) NOT NULL,"
-			+ "PRIMARY KEY (`id_auto`))";
-	
-	public static void main(String[] args) {
+	public static String sql = null;
 
-			Connection connection = DataBaseConnection.giveMyconnection();
+	public static String db_definition() {
 
-			try {
-				Statement statement = connection.createStatement();
-				
-
-				statement.executeUpdate(sql);
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} finally {
-
-				try {
-					connection.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		BufferedReader ficTexte;
+		String ligne = "";
+		String contenu = "";
+		try {
+			
+			ficTexte = new BufferedReader(new FileReader(new File(
+					"db_definition/jetsetmagasine.sql")));
+			ligne = ficTexte.readLine();
+			
+			while (ligne != null){
+				contenu += ligne;
+				ligne = ficTexte.readLine();
+				//System.out.println(ligne);
 			}
+			
+			ficTexte.close();
+			
+			return contenu;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
 
 	}
 
+	public static void main(String[] args) {
+
+		Connection connection = DataBaseConnection.giveMyconnection();
+
+		try {
+			Statement statement = connection.createStatement();
+			System.out.println("debut requete");
+			sql = db_definition();
+			System.out.println(sql+"\n requete chargé");
+			statement.executeUpdate(sql);
+			System.out.println("requete executé");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+}

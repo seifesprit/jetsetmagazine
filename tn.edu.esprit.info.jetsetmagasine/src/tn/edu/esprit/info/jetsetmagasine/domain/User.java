@@ -24,9 +24,9 @@ public abstract class User {
 
 	@Override
 	public String toString() {
-		return "Utilisateur [id_auto=" + id_auto + ", login=" + login
+		return "id_auto=" + id_auto + ", login=" + login
 				+ ", password=" + password + ", nom_prenom=" + nom_prenom
-				+ ", email=" + email + "]";
+				+ ", email=" + email + "";
 	}
 
 	public int getId_auto() {

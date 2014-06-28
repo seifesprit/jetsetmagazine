@@ -37,5 +37,6 @@
 	<classpathentry kind="lib" path="lib/protobuf-java-2.4.1.jar"/>
 	<classpathentry kind="lib" path="lib/transaction-api-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/xpp3-1.1.4c.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.30.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
