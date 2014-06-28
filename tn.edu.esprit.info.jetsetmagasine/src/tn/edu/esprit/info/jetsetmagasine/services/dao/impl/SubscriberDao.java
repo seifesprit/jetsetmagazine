@@ -7,26 +7,28 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import tn.edu.esprit.info.jetsetmagasine.domain.Category;
+import tn.edu.esprit.info.jetsetmagasine.domain.Subscriber;
 import tn.edu.esprit.info.jetsetmagasine.services.dao.interfaces.IDaoGenerique;
 import tn.edu.esprit.info.jetsetmagasine.utilities.DataBaseConnection;
 
-public class CategoryDao implements IDaoGenerique<Category> {
+public class SubscriberDao implements IDaoGenerique<Subscriber> {
 
-	private static CategoryDao intanceof;
+	private static SubscriberDao intanceof;
 
-	private CategoryDao() {
+	private SubscriberDao() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public boolean add(Category category) {
-		Connection connection = DataBaseConnection.giveMyconnection();
+	public boolean add(Subscriber subscriber) {
 
+		Connection connection = DataBaseConnection.giveMyconnection();
 		try {
 			Statement statement = connection.createStatement();
-			String sql = "insert into category (libelle)values('"
-					+ category.getLibelle() + "')";
+			String sql = "insert into subscriber (nom_prenom,email)values("
+					+ "'" + subscriber.getNom_prenom()
+
+					+ subscriber.getEmail() + ")";
 
 			statement.executeUpdate(sql);
 			return true;
@@ -47,15 +49,15 @@ public class CategoryDao implements IDaoGenerique<Category> {
 	}
 
 	@Override
-	public boolean update(Category category) {
+	public boolean update(Subscriber subscriber) {
 		Connection connection = DataBaseConnection.giveMyconnection();
 
 		try {
 			Statement statement = connection.createStatement();
-			String sql = "update category set libelle = '"
-					+ category.getLibelle() + "' where id_auto = "
-					+ category.getId_auto();
+			String sql = "update user set  nom_prenom ='"
+					+ subscriber.getNom_prenom() + "'," + "login = '"
 
+					+ subscriber.getEmail() + "'," + "";
 			statement.executeUpdate(sql);
 			return true;
 		} catch (SQLException e) {
@@ -75,13 +77,13 @@ public class CategoryDao implements IDaoGenerique<Category> {
 	}
 
 	@Override
-	public boolean remove(Category category) {
+	public boolean remove(Subscriber subscriber) {
 		Connection connection = DataBaseConnection.giveMyconnection();
 
 		try {
 			Statement statement = connection.createStatement();
-			String sql = "delete from category where id_auto = "
-					+ category.getId_auto();
+			String sql = "delete from subscriber where id_auto = "
+					+ subscriber.getId_auto();
 			statement.executeUpdate(sql);
 			return true;
 		} catch (SQLException e) {
@@ -101,21 +103,24 @@ public class CategoryDao implements IDaoGenerique<Category> {
 	}
 
 	@Override
-	public List<Category> findAll() {
+	public List<Subscriber> findAll() {
 		Connection connection = DataBaseConnection.giveMyconnection();
-		List<Category> categories = new ArrayList<Category>();
+		List<Subscriber> subscribers = new ArrayList<Subscriber>();
+
 		try {
 
 			Statement statement = connection.createStatement();
-			String sql = "select * from category";
+			String sql = "select * from subscriber where type = 'subscriber'";
 			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
-				Category category = new Category(resultSet.getInt("id_auto"),
-						resultSet.getString("libelle"));
-				categories.add(category);
+				Subscriber subscriber = new Subscriber(
+						resultSet.getInt("id_auto"),
+
+						resultSet.getString("nom_penom"),
+						resultSet.getString("email"));
+				subscribers.add(subscriber);
 			}
-			
-			return categories;
+			return subscribers;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -133,19 +138,21 @@ public class CategoryDao implements IDaoGenerique<Category> {
 	}
 
 	@Override
-	public Category findById(Integer id) {
+	public Subscriber findById(Integer id) {
+
 		Connection connection = DataBaseConnection.giveMyconnection();
 
 		try {
 
 			Statement statement = connection.createStatement();
-			String sql = "select * from category where id_auto=" + id;
+			String sql = "select * from subscriber where id_auto=" + id;
 			ResultSet resultSet = statement.executeQuery(sql);
 			resultSet.first();
-			Category category = new Category(resultSet.getInt("id_auto"),
-					resultSet.getString("libelle"));
+			Subscriber subscriber = new Subscriber(resultSet.getInt("id_auto"),
 
-			return category;
+			resultSet.getString("nom_prenom"), resultSet.getString("email"));
+
+			return subscriber;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -162,13 +169,12 @@ public class CategoryDao implements IDaoGenerique<Category> {
 		return null;
 	}
 
-	public static CategoryDao getInstanceof() {
+	public static SubscriberDao getInstanceof() {
 
 		if (intanceof == null) {
-			intanceof = new CategoryDao();
+			intanceof = new SubscriberDao();
 		}
 		return intanceof;
 
 	}
-
 }
