@@ -115,6 +115,7 @@ public class CategoryDao implements IDaoGenerique<Category> {
 						resultSet.getString("libelle"));
 				categories.add(category);
 			}
+			
 			return categories;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

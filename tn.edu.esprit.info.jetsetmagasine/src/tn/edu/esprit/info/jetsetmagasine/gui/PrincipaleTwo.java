@@ -18,7 +18,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import tn.edu.esprit.info.jetsetmagasine.gui.interframe.User;
+import tn.edu.esprit.info.jetsetmagasine.gui.interframe.LeaderList;
 
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
@@ -78,7 +78,7 @@ public class PrincipaleTwo extends JFrame {
 		JMenuItem jmenu_user = new JMenuItem("User");
 		jmenu_user.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				User user = new User();
+				LeaderList user = new LeaderList();
 				user.show();user.setVisible(true);
 				contentPane.add(user);
 			}
