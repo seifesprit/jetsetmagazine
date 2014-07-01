@@ -12,6 +12,7 @@ import javax.swing.JToolBar;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import tn.edu.esprit.info.jetsetmagasine.domain.Actuality;
@@ -65,8 +66,14 @@ public class ActualityList extends JInternalFrame {
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
 		table = new JTable();
+		
 		panel_2.add(table, BorderLayout.CENTER);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		panel_2.add(table.getTableHeader(), BorderLayout.PAGE_START);
+		refreshTable();
 
+		getContentPane().add(panel_2, BorderLayout.CENTER);
+		
 	}
 	
 	public void refreshTable() {
@@ -90,11 +97,19 @@ public class ActualityList extends JInternalFrame {
 			i++;
 		}
 		table.setModel(new DefaultTableModel(
-			objects,
+			new Object[][] {
+				{null, null, null, null, null, null},
+			},
 			new String[] {
-				"id", "Nom Prenom", "Email", "Login", "Password", "Categorie"
+				"id", "Titre", "Date / Heure", "Type", "Categorie", "Valide"
 			}
 		) {
+			Class[] columnTypes = new Class[] {
+				Object.class, Object.class, Object.class, Object.class, Object.class, Boolean.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
 			boolean[] columnEditables = new boolean[] {
 				false, false, false, false, false, false
 			};
