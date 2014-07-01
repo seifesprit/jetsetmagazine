@@ -17,7 +17,7 @@ public class Category {
 
 	@Override
 	public String toString() {
-		return "Category [id_auto=" + id_auto + ", libelle=" + libelle + "]";
+		return "Category [libelle=" + libelle + "]";
 	}
 
 	public int getId_auto() {
@@ -63,7 +63,5 @@ public class Category {
 			return false;
 		return true;
 	}
-	
-	
 	
 }

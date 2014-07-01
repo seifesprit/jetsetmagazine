@@ -18,6 +18,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import tn.edu.esprit.info.jetsetmagasine.gui.interframe.CategoryList;
 import tn.edu.esprit.info.jetsetmagasine.gui.interframe.LeaderList;
 
 import java.awt.Component;
@@ -25,6 +26,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
@@ -70,7 +72,9 @@ public class PrincipaleTwo extends JFrame {
 		JMenuItem jmenu_category = new JMenuItem("Category");
 		jmenu_category.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("category");
+				CategoryList categoryList = new CategoryList();
+				categoryList.setVisible(true);
+				contentPane.add(categoryList);
 			}
 		});
 		mnData.add(jmenu_category);
@@ -78,9 +82,9 @@ public class PrincipaleTwo extends JFrame {
 		JMenuItem jmenu_user = new JMenuItem("User");
 		jmenu_user.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				LeaderList user = new LeaderList();
-				user.show();user.setVisible(true);
-				contentPane.add(user);
+				LeaderList leaderList = new LeaderList();
+				leaderList.show();leaderList.setVisible(true);
+				contentPane.add(leaderList);
 			}
 		});
 		mnData.add(jmenu_user);
