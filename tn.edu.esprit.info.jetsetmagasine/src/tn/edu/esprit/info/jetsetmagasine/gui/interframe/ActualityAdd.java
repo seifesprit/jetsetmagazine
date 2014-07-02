@@ -5,11 +5,17 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -20,12 +26,19 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SpinnerDateModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.JRadioButton;
+
+import tn.edu.esprit.info.jetsetmagasine.domain.Actuality;
+import tn.edu.esprit.info.jetsetmagasine.domain.Category;
+import tn.edu.esprit.info.jetsetmagasine.services.dao.impl.ActualityDao;
+import tn.edu.esprit.info.jetsetmagasine.services.dao.impl.CategoryDao;
 
 public class ActualityAdd extends JDialog {
 
@@ -34,6 +47,12 @@ public class ActualityAdd extends JDialog {
 	private JLabel label_image;
 	private String IMG_PATH = null;
 	private JTextField textField_source;
+	private JRadioButton rdbtnSon;
+	private JRadioButton rdbtnVideo;
+	private JRadioButton rdbtnImage;
+	private JSpinner spinner_date;
+	private JTextPane text_description;
+	private JComboBox comboBox_category;
 
 	/**
 	 * Launch the application.
@@ -55,7 +74,28 @@ public class ActualityAdd extends JDialog {
 	 * Create the dialog.
 	 */
 	public ActualityAdd() {
-		setBounds(100, 100, 499, 466);
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent arg0) {
+
+				Category category = (Category) comboBox_category
+						.getSelectedItem();
+
+				comboBox_category.removeAllItems();
+				List<Category> categories = CategoryDao.getInstanceof()
+						.findAll();
+				for (Category category2 : categories) {
+					comboBox_category.addItem(category2);
+				}
+
+				if (category != null) {
+					comboBox_category.setSelectedItem(category);
+				}
+			}
+		});
+
+		setBounds(100, 100, 543, 471);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
@@ -64,15 +104,15 @@ public class ActualityAdd extends JDialog {
 		textField_titre.setColumns(10);
 		JLabel lblDescription = new JLabel("Description :");
 
-		JTextPane text_description = new JTextPane();
+		text_description = new JTextPane();
 
 		JLabel lblCategory = new JLabel("Category");
 
-		JComboBox comboBox_category = new JComboBox();
+		comboBox_category = new JComboBox();
 
 		JLabel lblImage = new JLabel("Image : ");
 
-		JButton btnParcourir = new JButton("Parcourir");
+		JButton btnParcourir = new JButton("Choose image");
 		btnParcourir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser fileChooser = new JFileChooser();
@@ -114,94 +154,281 @@ public class ActualityAdd extends JDialog {
 
 			}
 		});
-		
+
 		JLabel lblSource = new JLabel("Source :");
-		
+
 		textField_source = new JTextField();
 		textField_source.setColumns(10);
-		
-		JRadioButton rdbtnSon = new JRadioButton("Son");
-		
-		JRadioButton rdbtnVideo = new JRadioButton("Video");
-		
-		JRadioButton rdbtnImage = new JRadioButton("image");
-		
+
+		rdbtnSon = new JRadioButton("Son");
+
+		rdbtnVideo = new JRadioButton("Video");
+
+		rdbtnImage = new JRadioButton("image");
+
+		rdbtnImage.setSelected(true);
+
+		ButtonGroup buttonGroup = new ButtonGroup();
+
+		buttonGroup.add(rdbtnImage);
+		buttonGroup.add(rdbtnVideo);
+		buttonGroup.add(rdbtnSon);
+
 		JLabel lblType = new JLabel("Type :");
+
+		spinner_date = new JSpinner();
+		spinner_date.setModel(new SpinnerDateModel(new Date(), null, null,
+				Calendar.DAY_OF_YEAR));
+
+		JLabel lblDateHeure = new JLabel("Date / Heure :");
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
-		gl_contentPanel.setHorizontalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
-							.addGroup(gl_contentPanel.createSequentialGroup()
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-									.addComponent(lblDescription)
-									.addComponent(lblTitre))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-									.addComponent(textField_titre, GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
-									.addComponent(text_description, GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)))
-							.addGroup(gl_contentPanel.createSequentialGroup()
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-									.addComponent(lblCategory)
-									.addComponent(lblImage)
-									.addComponent(lblType))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-									.addGroup(gl_contentPanel.createSequentialGroup()
+		gl_contentPanel
+				.setHorizontalGroup(gl_contentPanel
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_contentPanel
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												gl_contentPanel
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																gl_contentPanel
+																		.createParallelGroup(
+																				Alignment.LEADING,
+																				false)
+																		.addGroup(
+																				gl_contentPanel
+																						.createSequentialGroup()
+																						.addGap(1)
+																						.addGroup(
+																								gl_contentPanel
+																										.createParallelGroup(
+																												Alignment.LEADING)
+																										.addComponent(
+																												lblImage)
+																										.addComponent(
+																												lblType))
+																						.addPreferredGap(
+																								ComponentPlacement.RELATED,
+																								464,
+																								Short.MAX_VALUE))
+																		.addGroup(
+																				gl_contentPanel
+																						.createSequentialGroup()
+																						.addGroup(
+																								gl_contentPanel
+																										.createParallelGroup(
+																												Alignment.LEADING)
+																										.addGroup(
+																												gl_contentPanel
+																														.createSequentialGroup()
+																														.addGroup(
+																																gl_contentPanel
+																																		.createParallelGroup(
+																																				Alignment.LEADING)
+																																		.addComponent(
+																																				lblDateHeure)
+																																		.addComponent(
+																																				lblCategory))
+																														.addPreferredGap(
+																																ComponentPlacement.UNRELATED)
+																														.addGroup(
+																																gl_contentPanel
+																																		.createParallelGroup(
+																																				Alignment.LEADING)
+																																		.addGroup(
+																																				gl_contentPanel
+																																						.createSequentialGroup()
+																																						.addComponent(
+																																								rdbtnImage)
+																																						.addPreferredGap(
+																																								ComponentPlacement.RELATED)
+																																						.addGroup(
+																																								gl_contentPanel
+																																										.createParallelGroup(
+																																												Alignment.LEADING)
+																																										.addGroup(
+																																												gl_contentPanel
+																																														.createSequentialGroup()
+																																														.addComponent(
+																																																label_image)
+																																														.addGap(179)
+																																														.addComponent(
+																																																btnParcourir)
+																																														.addPreferredGap(
+																																																ComponentPlacement.RELATED)
+																																														.addComponent(
+																																																btnShowImage))
+																																										.addGroup(
+																																												gl_contentPanel
+																																														.createSequentialGroup()
+																																														.addGap(54)
+																																														.addComponent(
+																																																rdbtnVideo)
+																																														.addGap(43)
+																																														.addComponent(
+																																																rdbtnSon))))
+																																		.addGroup(
+																																				gl_contentPanel
+																																						.createParallelGroup(
+																																								Alignment.LEADING)
+																																						.addComponent(
+																																								spinner_date,
+																																								GroupLayout.PREFERRED_SIZE,
+																																								GroupLayout.DEFAULT_SIZE,
+																																								GroupLayout.PREFERRED_SIZE)
+																																						.addComponent(
+																																								textField_source,
+																																								GroupLayout.DEFAULT_SIZE,
+																																								375,
+																																								Short.MAX_VALUE)
+																																						.addComponent(
+																																								comboBox_category,
+																																								0,
+																																								374,
+																																								Short.MAX_VALUE))))
+																										.addGroup(
+																												gl_contentPanel
+																														.createSequentialGroup()
+																														.addGroup(
+																																gl_contentPanel
+																																		.createParallelGroup(
+																																				Alignment.LEADING)
+																																		.addComponent(
+																																				lblDescription)
+																																		.addComponent(
+																																				lblTitre))
+																														.addGap(18)
+																														.addGroup(
+																																gl_contentPanel
+																																		.createParallelGroup(
+																																				Alignment.LEADING)
+																																		.addComponent(
+																																				textField_titre,
+																																				GroupLayout.DEFAULT_SIZE,
+																																				393,
+																																				Short.MAX_VALUE)
+																																		.addComponent(
+																																				text_description,
+																																				GroupLayout.DEFAULT_SIZE,
+																																				393,
+																																				Short.MAX_VALUE))))
+																						.addGap(42)))
+														.addComponent(lblSource))
+										.addContainerGap(
+												GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE)));
+		gl_contentPanel
+				.setVerticalGroup(gl_contentPanel
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_contentPanel
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												gl_contentPanel
+														.createParallelGroup(
+																Alignment.BASELINE)
+														.addComponent(lblTitre)
+														.addComponent(
+																textField_titre,
+																GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE))
+										.addPreferredGap(
+												ComponentPlacement.RELATED)
+										.addGroup(
+												gl_contentPanel
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addComponent(
+																lblDescription)
+														.addComponent(
+																text_description,
+																GroupLayout.PREFERRED_SIZE,
+																85,
+																GroupLayout.PREFERRED_SIZE))
+										.addPreferredGap(
+												ComponentPlacement.RELATED)
+										.addGroup(
+												gl_contentPanel
+														.createParallelGroup(
+																Alignment.BASELINE)
+														.addComponent(
+																comboBox_category,
+																GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE)
+														.addComponent(
+																lblCategory))
+										.addGroup(
+												gl_contentPanel
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																gl_contentPanel
+																		.createSequentialGroup()
+																		.addGap(12)
+																		.addGroup(
+																				gl_contentPanel
+																						.createParallelGroup(
+																								Alignment.BASELINE)
+																						.addComponent(
+																								lblImage)
+																						.addComponent(
+																								label_image)))
+														.addGroup(
+																gl_contentPanel
+																		.createSequentialGroup()
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED)
+																		.addGroup(
+																				gl_contentPanel
+																						.createParallelGroup(
+																								Alignment.BASELINE)
+																						.addComponent(
+																								btnShowImage)
+																						.addComponent(
+																								btnParcourir))))
+										.addPreferredGap(
+												ComponentPlacement.RELATED)
+										.addGroup(
+												gl_contentPanel
+														.createParallelGroup(
+																Alignment.BASELINE)
+														.addComponent(lblSource)
+														.addComponent(
+																textField_source,
+																GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE))
 										.addGap(18)
-										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-											.addComponent(label_image)
-											.addComponent(comboBox_category, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(textField_source, GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
-											.addGroup(gl_contentPanel.createSequentialGroup()
-												.addComponent(rdbtnSon)
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(rdbtnVideo)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(rdbtnImage))))
-									.addGroup(Alignment.TRAILING, gl_contentPanel.createSequentialGroup()
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(btnParcourir)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(btnShowImage)))))
-						.addComponent(lblSource))
-					.addContainerGap(10, Short.MAX_VALUE))
-		);
-		gl_contentPanel.setVerticalGroup(
-			gl_contentPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTitre)
-						.addComponent(textField_titre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblDescription)
-						.addComponent(text_description, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
-					.addGap(12)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCategory)
-						.addComponent(comboBox_category, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblImage)
-						.addComponent(label_image)
-						.addComponent(btnShowImage)
-						.addComponent(btnParcourir))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblSource)
-						.addComponent(textField_source, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(rdbtnSon)
-						.addComponent(rdbtnVideo)
-						.addComponent(rdbtnImage)
-						.addComponent(lblType))
-					.addContainerGap(130, Short.MAX_VALUE))
-		);
+										.addGroup(
+												gl_contentPanel
+														.createParallelGroup(
+																Alignment.BASELINE)
+														.addComponent(lblType)
+														.addComponent(
+																rdbtnImage)
+														.addComponent(rdbtnSon)
+														.addComponent(
+																rdbtnVideo))
+										.addPreferredGap(
+												ComponentPlacement.UNRELATED)
+										.addGroup(
+												gl_contentPanel
+														.createParallelGroup(
+																Alignment.BASELINE)
+														.addComponent(
+																lblDateHeure)
+														.addComponent(
+																spinner_date,
+																GroupLayout.PREFERRED_SIZE,
+																GroupLayout.DEFAULT_SIZE,
+																GroupLayout.PREFERRED_SIZE))
+										.addContainerGap(119, Short.MAX_VALUE)));
 		contentPanel.setLayout(gl_contentPanel);
 		{
 			JPanel buttonPane = new JPanel();
@@ -209,6 +436,28 @@ public class ActualityAdd extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+
+						String type = "";
+						if (rdbtnImage.isSelected())
+							type = "image";
+						if (rdbtnSon.isSelected())
+							type = "son";
+						if (rdbtnVideo.isSelected())
+							type = "video";
+
+						Actuality actuality = new Actuality(0, textField_titre
+								.getText(), text_description.getText(), type,
+								new Date(),(Date) spinner_date.getValue(), false, IMG_PATH, null,
+								(Category) comboBox_category.getSelectedItem(),
+								textField_source.getText());
+						System.out.println(actuality);
+
+						ActualityDao.getInstanceof().add(actuality);
+
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);

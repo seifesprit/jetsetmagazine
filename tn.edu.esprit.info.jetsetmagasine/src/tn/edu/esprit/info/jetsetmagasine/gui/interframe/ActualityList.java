@@ -78,6 +78,7 @@ public class ActualityList extends JInternalFrame {
 		panel_2.setLayout(new BorderLayout(0, 0));
 		
 		table = new JTable();
+		table.setFillsViewportHeight(true);
 		
 		panel_2.add(table, BorderLayout.CENTER);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -100,12 +101,12 @@ public class ActualityList extends JInternalFrame {
 
 		for (Actuality actuality : actualities) {
 
-//			objects[i][0] = leader.getId_auto();
-//			objects[i][1] = leader.getNom_prenom();
-//			objects[i][2] = leader.getEmail();
-//			objects[i][3] = leader.getLogin();
-//			objects[i][4] = leader.getPassword();
-//			objects[i][5] = leader.getCategory();
+			objects[i][0] = actuality.getId_auto();
+			objects[i][1] = actuality.getTitre();
+			objects[i][2] = actuality.getDate_redaction();
+			objects[i][3] = actuality.getType();
+			objects[i][4] = actuality.getCategory();
+			objects[i][5] = actuality.isValide();
 			i++;
 		}
 		table.setModel(new DefaultTableModel(

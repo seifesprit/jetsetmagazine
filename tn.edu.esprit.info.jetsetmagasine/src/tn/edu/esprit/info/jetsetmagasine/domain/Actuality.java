@@ -11,7 +11,6 @@ public class Actuality {
 	private Date date_redaction;
 	private boolean valide;
 	private String image;
-	private String une ;
 	private String source ;
 	private Leader leader;
 	private Category category;
@@ -22,7 +21,7 @@ public class Actuality {
 
 	public Actuality(int id_auto, String titre, String description,
 			String type, Date date_ajout, Date date_redaction, boolean valide,
-			String image, Leader leader, Category category) {
+			String image, Leader leader, Category category,String source) {
 		super();
 		this.id_auto = id_auto;
 		this.titre = titre;
@@ -34,6 +33,7 @@ public class Actuality {
 		this.image = image;
 		this.leader = leader;
 		this.category = category;
+		this.source = source;
 	}
 
 
@@ -196,14 +196,6 @@ public class Actuality {
 
 	public void setImage(String image) {
 		this.image = image;
-	}
-	
-	public String getUne() {
-		return une;
-	}
-
-	public void setUne(String une) {
-		this.une = une;
 	}
 
 	public String getSource() {
