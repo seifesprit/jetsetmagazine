@@ -11,6 +11,8 @@ public class Actuality {
 	private Date date_redaction;
 	private boolean valide;
 	private String image;
+	private String une ;
+	private String source ;
 	private Leader leader;
 	private Category category;
 	
@@ -195,7 +197,23 @@ public class Actuality {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	
+	public String getUne() {
+		return une;
+	}
 
+	public void setUne(String une) {
+		this.une = une;
+	}
+
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+	
 	public Leader getLeader() {
 		return leader;
 	}
