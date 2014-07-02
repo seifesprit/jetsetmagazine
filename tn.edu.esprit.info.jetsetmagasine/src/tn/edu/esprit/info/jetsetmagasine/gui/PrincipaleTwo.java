@@ -18,6 +18,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import tn.edu.esprit.info.jetsetmagasine.gui.interframe.ActualityList;
 import tn.edu.esprit.info.jetsetmagasine.gui.interframe.CategoryList;
 import tn.edu.esprit.info.jetsetmagasine.gui.interframe.LeaderList;
 
@@ -88,6 +89,16 @@ public class PrincipaleTwo extends JFrame {
 			}
 		});
 		mnData.add(jmenu_user);
+		
+		JMenuItem mntmActuality = new JMenuItem("Actuality");
+		mntmActuality.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ActualityList actualityList = new ActualityList();
+				actualityList.setVisible(true);
+				contentPane.add(actualityList);
+			}
+		});
+		mnData.add(mntmActuality);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

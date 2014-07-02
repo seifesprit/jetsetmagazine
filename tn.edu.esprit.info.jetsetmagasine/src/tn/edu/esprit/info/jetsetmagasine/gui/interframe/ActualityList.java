@@ -17,6 +17,9 @@ import javax.swing.table.DefaultTableModel;
 
 import tn.edu.esprit.info.jetsetmagasine.domain.Actuality;
 import tn.edu.esprit.info.jetsetmagasine.services.dao.impl.ActualityDao;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ActualityList extends JInternalFrame {
 	private JTextField textField_filtre;
@@ -50,6 +53,15 @@ public class ActualityList extends JInternalFrame {
 		
 		JToolBar toolBar = new JToolBar();
 		panel.add(toolBar, BorderLayout.NORTH);
+		
+		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ActualityAdd actualityAdd = new ActualityAdd();
+				actualityAdd.setVisible(true);
+			}
+		});
+		toolBar.add(btnAdd);
 		
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, BorderLayout.SOUTH);
