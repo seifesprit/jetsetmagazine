@@ -233,7 +233,7 @@ public class ConnectFacebook {
 			e1.printStackTrace();
 		}
 		parent.getPicture_fb().setIcon(new javax.swing.ImageIcon(url));
-
+		parent.getEmail_fb().setText(user.getEmail());
 		if(SubscriberBusiness.getInstanceof().findByIdfb(user.getId()) == null){
 			
 			SubscriberDao.getInstanceof().add(new Subscriber(0, user.getName(), user.getEmail(), user.getId(),user.getPicture()));

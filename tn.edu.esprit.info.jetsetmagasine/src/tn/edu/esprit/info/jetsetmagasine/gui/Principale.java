@@ -73,6 +73,12 @@ public class Principale extends JFrame implements TableModelListener {
 	private JButton btnLogin;
 	private boolean islogin = false;
 	private ConnectFacebook connectFacebook;
+	private JLabel email_fb;
+
+	
+	public JLabel getEmail_fb() {
+		return email_fb;
+	}
 
 	public void setIslogin(boolean islogin) {
 		this.islogin = islogin;
@@ -109,6 +115,7 @@ public class Principale extends JFrame implements TableModelListener {
 			{ "Jane", "White", "Speed reading", new Integer(20),
 					new Boolean(true) },
 			{ "Joe", "Brown", "Pool", new Integer(10), new Boolean(false) } };
+	
 
 	/**
 	 * Launch the application.
@@ -197,6 +204,7 @@ public class Principale extends JFrame implements TableModelListener {
 					connectFacebook.disconnect();
 					name_fb.setText("");
 					picture_fb.setIcon(null);
+					email_fb.setText("");
 					btnLogin.setText("Log in");
 					islogin= false;
 					
@@ -234,28 +242,30 @@ public class Principale extends JFrame implements TableModelListener {
 
 		name_fb = new JLabel("");
 		picture_fb = new JLabel("");
+		email_fb = new JLabel("");
 
 		GroupLayout gl_panel_top = new GroupLayout(panel_top);
-		gl_panel_top.setHorizontalGroup(gl_panel_top.createParallelGroup(
-				Alignment.TRAILING).addGroup(
-				Alignment.LEADING,
-				gl_panel_top.createSequentialGroup().addGap(9)
-						.addComponent(picture_fb)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
+		gl_panel_top.setHorizontalGroup(
+			gl_panel_top.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_top.createSequentialGroup()
+					.addGap(9)
+					.addComponent(picture_fb)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel_top.createParallelGroup(Alignment.LEADING)
+						.addComponent(email_fb)
+						.addComponent(name_fb))
+					.addContainerGap(644, Short.MAX_VALUE))
+		);
+		gl_panel_top.setVerticalGroup(
+			gl_panel_top.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_top.createSequentialGroup()
+					.addGroup(gl_panel_top.createParallelGroup(Alignment.BASELINE)
 						.addComponent(name_fb)
-						.addContainerGap(690, Short.MAX_VALUE)));
-		gl_panel_top.setVerticalGroup(gl_panel_top.createParallelGroup(
-				Alignment.LEADING)
-				.addGroup(
-						gl_panel_top
-								.createSequentialGroup()
-								.addGroup(
-										gl_panel_top
-												.createParallelGroup(
-														Alignment.BASELINE)
-												.addComponent(name_fb)
-												.addComponent(picture_fb))
-								.addGap(25)));
+						.addComponent(picture_fb))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(email_fb)
+					.addGap(30))
+		);
 		panel_top.setLayout(gl_panel_top);
 		TimerTask task = new TimerTask() {
 			@Override
