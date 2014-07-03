@@ -5,7 +5,7 @@ public class Subscriber {
 	private int id_auto;
 	private String nom_prenom;
 	private String email;
-	
+	private String id_fb ;
 	public Subscriber() {
 		// TODO Auto-generated constructor stub
 	}
@@ -80,6 +80,14 @@ public class Subscriber {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getId_fb() {
+		return id_fb;
+	}
+
+	public void setId_fb(String id_fb) {
+		this.id_fb = id_fb;
 	}
 	
 	
