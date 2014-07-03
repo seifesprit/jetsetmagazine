@@ -35,6 +35,8 @@ CREATE TABLE `subscriber` (
   `nom_prenom` varchar(30) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
     `id_fb` varchar(255) DEFAULT NULL,
+    `image` varchar(255) DEFAULT NULL,
+    
   PRIMARY KEY (`id_auto`)
 );
 DROP TABLE IF EXISTS `user`;

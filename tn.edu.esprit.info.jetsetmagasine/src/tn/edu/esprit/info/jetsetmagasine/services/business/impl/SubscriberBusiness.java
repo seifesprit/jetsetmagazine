@@ -27,7 +27,8 @@ public class SubscriberBusiness implements ISubscriber {
 						resultSet.getInt("id_auto"),
 						resultSet.getString("nom_prenom"),
 						resultSet.getString("email"),
-						resultSet.getString("id_fb"));
+						resultSet.getString("id_fb"),
+						resultSet.getString("image"));
 
 				return subscriber;
 			}

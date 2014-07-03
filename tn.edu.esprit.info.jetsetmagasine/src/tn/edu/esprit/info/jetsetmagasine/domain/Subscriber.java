@@ -6,17 +6,19 @@ public class Subscriber {
 	private String nom_prenom;
 	private String email;
 	private String id_fb ;
+	private String image;
 	
 	public Subscriber() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Subscriber(int id_auto, String nom_prenom, String email, String id_fb) {
+	public Subscriber(int id_auto, String nom_prenom, String email, String id_fb,String image) {
 		super();
 		this.id_auto = id_auto;
 		this.nom_prenom = nom_prenom;
 		this.email = email;
 		this.id_fb = id_fb;
+		this.setImage(image);
 	}
 
 
@@ -100,6 +102,14 @@ public class Subscriber {
 
 	public void setId_fb(String id_fb) {
 		this.id_fb = id_fb;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 	

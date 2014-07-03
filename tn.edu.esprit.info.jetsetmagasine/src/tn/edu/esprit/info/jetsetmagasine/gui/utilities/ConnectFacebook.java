@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
 
@@ -30,7 +31,7 @@ import com.facebook.halo.framework.common.AccessToken;
 
 public class ConnectFacebook {
 
-	private static ConnectFacebook instancesof;
+	
 	public String API_KEY = "1432910070326659";
 	public String SECRET = "2f1ba5a5ea31899a21d0187a05c18f58";
 
@@ -49,24 +50,70 @@ public class ConnectFacebook {
 	public String access_token = "";
 	public boolean firstRequestDone = false;
 	public boolean secondRequestDone = false;
-	public FacebookTestClient testClient;
+
 	public User user = null;
 	private JWebBrowser webBrowser;
 	private Principale parent;
 
-	private ConnectFacebook(Principale parent) {
+	public ConnectFacebook(Principale parent) {
 		this.parent = parent;
 	}
+	
+	public void disconnect(){
+		
+		final JFrame loginFrame = new JFrame();
+		JPanel webBrowserPanel = new JPanel(new BorderLayout());
+		// this is the JWebBrowser i mentioned earlier
+		final JWebBrowser webBrowser = new JWebBrowser();
+		// You can set this fields to false, or even let them
+		// activated
+		webBrowser.setMenuBarVisible(false);
+		webBrowser.setButtonBarVisible(false);
+		webBrowser.setLocationBarVisible(false);
+		final String fb_url = "https://www.facebook.com/logout.php";
+		webBrowser.navigate(fb_url);
 
-	public User connect() {
+		webBrowser
+				.addWebBrowserListener(new WebBrowserAdapter() {
+					@Override
+					public void locationChanging(
+							WebBrowserNavigationEvent e) {
+						super.locationChanging(e);
+						System.out.println(e
+								.getNewResourceLocation());
+
+						if (!e.getNewResourceLocation().equals(
+								fb_url)) {
+							Timer timer = new Timer(5000,
+									new ActionListener() {
+										@Override
+										public void actionPerformed(
+												ActionEvent arg0) {
+											//loginFrame.dispose();
+										}
+									});
+							timer.start();
+						}
+					}
+				});
+		webBrowserPanel.add(webBrowser, BorderLayout.CENTER);
+		loginFrame.add(webBrowserPanel);
+		loginFrame.setSize(400, 500);
+		loginFrame.setVisible(true);
+		
+	}
+
+	public void connect() {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-
+				access_token = "";
+				firstRequestDone = false;
+				secondRequestDone = false;
+				
 				NativeInterface.open();
 				NativeInterface.initialize();
 
-				System.out.println(" Bouton 2");
 				final JFrame authFrame = new JFrame();
 				// Create the JWebBrowser and add the
 				// WebBrowserAdapter
@@ -87,7 +134,7 @@ public class ConnectFacebook {
 							// location and were
 							// redirected to the next
 							// location
-							System.out.println("false");
+							
 							if (e.getNewResourceLocation()
 									.contains(
 											"http://www.facebook.com/connect/login_success.html?code=")) {
@@ -169,15 +216,9 @@ public class ConnectFacebook {
 			}
 
 		});
-		return user;
+		
 	}
 
-	public static ConnectFacebook getInstancesof(Principale parent) {
-		
-		if (instancesof == null)
-			instancesof = new ConnectFacebook(parent);
-		return instancesof;
-	}
 	
 	private void getInformation() {
 		AccessToken.setAccessToken(access_token);
@@ -195,11 +236,12 @@ public class ConnectFacebook {
 
 		if(SubscriberBusiness.getInstanceof().findByIdfb(user.getId()) == null){
 			
-			SubscriberDao.getInstanceof().add(new Subscriber(0, user.getName(), user.getEmail(), user.getId()));
+			SubscriberDao.getInstanceof().add(new Subscriber(0, user.getName(), user.getEmail(), user.getId(),user.getPicture()));
 			JOptionPane.showMessageDialog(parent,
 				    "Merci pour l'inscription chez jet set magasine",
 				    "félicitations",
 				    JOptionPane.INFORMATION_MESSAGE);
+			
 			
 		}else{
 			
@@ -209,7 +251,8 @@ public class ConnectFacebook {
 				    JOptionPane.INFORMATION_MESSAGE);
 		}
 		
-		
+		parent.setIslogin(true);
+		parent.getBtnLogin().setText("sign out");
 		
 	}
 	

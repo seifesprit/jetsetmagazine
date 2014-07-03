@@ -25,10 +25,11 @@ public class SubscriberDao implements IDaoGenerique<Subscriber> {
 		Connection connection = DataBaseConnection.giveMyconnection();
 		try {
 			Statement statement = connection.createStatement();
-			String sql = "insert into subscriber (nom_prenom,email,id_fb)values("
+			String sql = "insert into subscriber (nom_prenom,email,id_fb,image)values("
 					+ "'"+ subscriber.getNom_prenom()+ "',"
 					+ "'"+ subscriber.getEmail()+ "',"
-					+ "'"+ subscriber.getId_fb() + "')";
+					+ "'"+ subscriber.getId_fb() + "',"
+					+ "'"+subscriber.getImage()+"')";
 
 			statement.executeUpdate(sql);
 			return true;
@@ -57,7 +58,8 @@ public class SubscriberDao implements IDaoGenerique<Subscriber> {
 			String sql = "update subscriber set nom_prenom = '"
 					+ subscriber.getNom_prenom() + "' , email = '"
 					+ subscriber.getEmail() + "' ,id_fb= '"
-					+ subscriber.getId_fb() + "' where id_auto = "
+					+ subscriber.getId_fb() + "' ,"
+					+ "image = '"+subscriber.getImage()+"' where id_auto = "
 					+ subscriber.getId_auto();
 
 			statement.executeUpdate(sql);
@@ -120,7 +122,8 @@ public class SubscriberDao implements IDaoGenerique<Subscriber> {
 
 						resultSet.getString("nom_penom"),
 						resultSet.getString("email"),
-						resultSet.getString("id_fb"));
+						resultSet.getString("id_fb"),
+						resultSet.getString("image"));
 				subscribers.add(subscriber);
 			}
 			return subscribers;
@@ -154,7 +157,8 @@ public class SubscriberDao implements IDaoGenerique<Subscriber> {
 			Subscriber subscriber = new Subscriber(resultSet.getInt("id_auto"),
 
 			resultSet.getString("nom_prenom"), resultSet.getString("email"),
-					resultSet.getString("id_fb"));
+					resultSet.getString("id_fb"),
+					resultSet.getString("image"));
 
 			return subscriber;
 		} catch (SQLException e) {
