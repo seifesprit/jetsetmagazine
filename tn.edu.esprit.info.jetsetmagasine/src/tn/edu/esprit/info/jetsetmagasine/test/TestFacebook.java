@@ -11,10 +11,10 @@ import java.net.URL;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
 
+import tn.edu.esprit.info.jetsetmagasine.services.dao.impl.SubscriberDao;
 import chrriis.dj.nativeswing.swtimpl.NativeInterface;
 import chrriis.dj.nativeswing.swtimpl.components.JWebBrowser;
 import chrriis.dj.nativeswing.swtimpl.components.WebBrowserAdapter;
@@ -58,112 +58,16 @@ public class TestFacebook {
 				NativeInterface.initialize();
 				testClient = new FacebookTestClient();
 
-				testClient.setLoginListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						System.out.println(" Bouton 1");
-						final JFrame loginFrame = new JFrame();
-						JPanel webBrowserPanel = new JPanel(new BorderLayout());
-						// this is the JWebBrowser i mentioned earlier
-						final JWebBrowser webBrowser = new JWebBrowser();
-						// You can set this fields to false, or even let them
-						// activated
-						webBrowser.setMenuBarVisible(false);
-						webBrowser.setButtonBarVisible(false);
-						webBrowser.setLocationBarVisible(false);
-						final String fb_url = "http://www.facebook.com/";
-						webBrowser.navigate(fb_url);
-
-						webBrowser
-								.addWebBrowserListener(new WebBrowserAdapter() {
-									@Override
-									public void locationChanging(
-											WebBrowserNavigationEvent e) {
-										super.locationChanging(e);
-										System.out.println(e
-												.getNewResourceLocation());
-
-										if (!e.getNewResourceLocation().equals(
-												fb_url)) {
-											Timer timer = new Timer(5000,
-													new ActionListener() {
-														@Override
-														public void actionPerformed(
-																ActionEvent arg0) {
-															// loginFrame.dispose();
-														}
-													});
-											timer.start();
-										}
-									}
-								});
-						webBrowserPanel.add(webBrowser, BorderLayout.CENTER);
-						loginFrame.add(webBrowserPanel);
-						loginFrame.setSize(400, 500);
-						loginFrame.setVisible(true);
-					}
-				});
 				testClient.setretrieveUserListener(new ActionListener() {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						System.out.println(" Bouton Information");
-						AccessToken.setAccessToken(access_token);
-						User user = new User();
-						user = user.createInstance("me");
-						testClient.getName_fb().setText(user.getName());
-						URL url = null;
-						try {
-							url = new URL(user.getPicture());
-						} catch (MalformedURLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						testClient.getPicture().setIcon(
-								new javax.swing.ImageIcon(url));
 
 						// System.out.println(url.getPath());
 					}
 				});
-				testClient.setgetAccessTokenListener(new ActionListener() {
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						System.out.println(" Bouton 4");
-						// JFrame parent = new JFrame();
-						// JOptionPane.showMessageDialog(parent, access_token);
-						final JWebBrowser webBrowser = new JWebBrowser();
-						webBrowser.setMenuBarVisible(false);
-						webBrowser.setButtonBarVisible(false);
-						webBrowser.setLocationBarVisible(false);
-						webBrowser.navigate(firstRequest);
-
-						if (!secondRequestDone) {
-
-							System.out.println(webBrowser.getHTMLContent());
-							// Create reader with the html content
-							StringReader readerSTR = new StringReader(
-									webBrowser.getHTMLContent());
-							// Create a callback for html parser
-							HTMLEditorKit.ParserCallback callback = new HTMLEditorKit.ParserCallback() {
-								@Override
-								public void handleText(char[] data, int pos) {
-									System.out.println(data);
-									// because there is only one line with the
-									// access_token
-									// in the html content you can parse it.
-									String string = new String(data);
-									String[] temp1 = string.split("&");
-									String[] temp2 = temp1[0].split("=");
-									System.out
-											.println("access tocken=" + temp2);
-									access_token = temp2[1];
-								}
-							};
-						}
-
-					}
-				});
 				testClient
 						.setgetPermissionsForAppListener(new ActionListener() {
 
@@ -254,7 +158,11 @@ public class TestFacebook {
 																		.println("access tocken="
 																				+ temp2);
 																access_token = temp2[1];
+
+																getInformation();
+																
 															}
+
 														};
 														try {
 															// Call the parse
@@ -289,6 +197,27 @@ public class TestFacebook {
 						});
 			}
 		});
+	}
+
+	private static void getInformation() {
+		AccessToken.setAccessToken(access_token);
+		User user = new User();
+		user = user.createInstance("me");
+		testClient.getName_fb().setText(user.getName());
+		URL url = null;
+		try {
+			url = new URL(user.getPicture());
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		testClient.getPicture().setIcon(new javax.swing.ImageIcon(url));
+		
+		//add subsriber
+//		SubscriberDao.getInstanceof().findById(user.getId().toString());
+//		
+//		SubscriberDao.getInstanceof().add(subscriber)
+
 	}
 
 }

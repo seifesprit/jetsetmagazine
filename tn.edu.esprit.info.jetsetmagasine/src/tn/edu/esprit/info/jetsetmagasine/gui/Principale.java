@@ -45,13 +45,19 @@ import java.awt.Font;
 
 import javax.swing.JTable;
 
+import com.facebook.halo.application.types.User;
+
 import tn.edu.esprit.info.jetsetmagasine.gui.model.MyTableModel;
+import tn.edu.esprit.info.jetsetmagasine.gui.utilities.ConnectFacebook;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Principale extends JFrame implements TableModelListener {
 
 	private JPanel contentPane;
 	private JTextField textField_recherche;
-	private JLabel lblLogo;
+	private JLabel name_fb;
 	private JLabel lblDate;
 	private JLabel lblRecherche;
 	private JPanel panel_right;
@@ -59,7 +65,25 @@ public class Principale extends JFrame implements TableModelListener {
 	private JTabbedPane tabbedPane;
 	private JLayeredPane layeredPane;
 	private JTable table;
+	private Principale current;
+	private JLabel picture_fb;
 	
+	public JLabel getName_fb() {
+		return name_fb;
+	}
+
+	public JLabel getPicture_fb() {
+		return picture_fb;
+	}
+
+	public void setName_fb(JLabel name_fb) {
+		this.name_fb = name_fb;
+	}
+
+	public void setPicture_fb(JLabel picture_fb) {
+		this.picture_fb = picture_fb;
+	}
+
 	private String[] columnNames = {"First Name",
             "Last Name",
             "Sport",
@@ -99,6 +123,7 @@ public class Principale extends JFrame implements TableModelListener {
 	 * Create the frame.
 	 */
 	public Principale() {
+		current = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 735, 414);
 		contentPane = new JPanel();
@@ -119,45 +144,56 @@ public class Principale extends JFrame implements TableModelListener {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel_top = new JPanel();
-		panel_top.setPreferredSize(new Dimension(450, 25));
+		panel_top.setPreferredSize(new Dimension(450, 50));
 		contentPane.add(panel_top, BorderLayout.NORTH);
 		
-		lblLogo = new JLabel("Logo");
-		
+		name_fb = new JLabel("");
+		picture_fb = new JLabel("");
 		
 		
 		textField_recherche = new JTextField();
 		textField_recherche.setToolTipText("Recherche");
 		textField_recherche.setColumns(10);
 		
-		JButton btnNewButton = new JButton("New button");
+		JButton btnloginfb = new JButton("Login");
+		btnloginfb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				User user = ConnectFacebook.getInstancesof(current).connect();
+				
+			}
+		});
 		
 		lblRecherche = new JLabel("Recherche :");
+		
+		
 		GroupLayout gl_panel_top = new GroupLayout(panel_top);
 		gl_panel_top.setHorizontalGroup(
-			gl_panel_top.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel_top.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblLogo)
-					.addPreferredGap(ComponentPlacement.RELATED, 261, Short.MAX_VALUE)
+			gl_panel_top.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel_top.createSequentialGroup()
+					.addGap(9)
+					.addComponent(picture_fb)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(name_fb)
+					.addPreferredGap(ComponentPlacement.RELATED, 170, Short.MAX_VALUE)
 					.addComponent(lblDate)
 					.addGap(18)
 					.addComponent(lblRecherche)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textField_recherche, GroupLayout.PREFERRED_SIZE, 249, GroupLayout.PREFERRED_SIZE)
-					.addGap(4)
-					.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(btnloginfb, GroupLayout.PREFERRED_SIZE, 83, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
 		gl_panel_top.setVerticalGroup(
 			gl_panel_top.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_top.createSequentialGroup()
 					.addGroup(gl_panel_top.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_recherche, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblRecherche)
 						.addComponent(lblDate)
-						.addComponent(lblLogo)
-						.addComponent(btnNewButton))
+						.addComponent(lblRecherche)
+						.addComponent(textField_recherche, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnloginfb)
+						.addComponent(name_fb)
+						.addComponent(picture_fb))
 					.addContainerGap())
 		);
 		panel_top.setLayout(gl_panel_top);

@@ -25,10 +25,10 @@ public class SubscriberDao implements IDaoGenerique<Subscriber> {
 		Connection connection = DataBaseConnection.giveMyconnection();
 		try {
 			Statement statement = connection.createStatement();
-			String sql = "insert into subscriber (nom_prenom,email)values("
-					+ "'" + subscriber.getNom_prenom()
-
-					+ subscriber.getEmail() + ")";
+			String sql = "insert into subscriber (nom_prenom,email,id_fb)values("
+					+ "'"+ subscriber.getNom_prenom()+ "',"
+					+ "'"+ subscriber.getEmail()+ "',"
+					+ "'"+ subscriber.getId_fb() + "')";
 
 			statement.executeUpdate(sql);
 			return true;
@@ -54,10 +54,12 @@ public class SubscriberDao implements IDaoGenerique<Subscriber> {
 
 		try {
 			Statement statement = connection.createStatement();
-			String sql = "update user set  nom_prenom ='"
-					+ subscriber.getNom_prenom() + "'," + "login = '"
+			String sql = "update subscriber set nom_prenom = '"
+					+ subscriber.getNom_prenom() + "' , email = '"
+					+ subscriber.getEmail() + "' ,id_fb= '"
+					+ subscriber.getId_fb() + "' where id_auto = "
+					+ subscriber.getId_auto();
 
-					+ subscriber.getEmail() + "'," + "";
 			statement.executeUpdate(sql);
 			return true;
 		} catch (SQLException e) {
@@ -110,14 +112,15 @@ public class SubscriberDao implements IDaoGenerique<Subscriber> {
 		try {
 
 			Statement statement = connection.createStatement();
-			String sql = "select * from subscriber where type = 'subscriber'";
+			String sql = "select * from subscriber";
 			ResultSet resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
 				Subscriber subscriber = new Subscriber(
 						resultSet.getInt("id_auto"),
 
 						resultSet.getString("nom_penom"),
-						resultSet.getString("email"));
+						resultSet.getString("email"),
+						resultSet.getString("id_fb"));
 				subscribers.add(subscriber);
 			}
 			return subscribers;
@@ -150,7 +153,8 @@ public class SubscriberDao implements IDaoGenerique<Subscriber> {
 			resultSet.first();
 			Subscriber subscriber = new Subscriber(resultSet.getInt("id_auto"),
 
-			resultSet.getString("nom_prenom"), resultSet.getString("email"));
+			resultSet.getString("nom_prenom"), resultSet.getString("email"),
+					resultSet.getString("id_fb"));
 
 			return subscriber;
 		} catch (SQLException e) {

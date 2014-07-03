@@ -56,15 +56,6 @@ public class SubscriberList extends JInternalFrame {
 		JToolBar toolBar = new JToolBar();
 		panel.add(toolBar, BorderLayout.NORTH);
 		
-		JButton btnAdd = new JButton("Add");
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SubscriberAdd subscriberAdd = new SubscriberAdd();
-				subscriberAdd.setVisible(true);
-			}
-		});
-		toolBar.add(btnAdd);
-		
 		JPanel panel_1 = new JPanel();
 		panel.add(panel_1, BorderLayout.SOUTH);
 		
