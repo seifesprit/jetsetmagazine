@@ -28,8 +28,6 @@ public class ActualityDao implements IDaoGenerique<Actuality> {
 		Connection connection = DataBaseConnection.giveMyconnection();
 		try {
 			
-			
-			
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); // your template here
 			//java.util.Date date_ajout_Str = formatter.parse(act.getDate_ajout().toString());
 				java.sql.Date date_ajout_DB = new java.sql.Date(act.getDate_ajout().getTime());
@@ -37,10 +35,7 @@ public class ActualityDao implements IDaoGenerique<Actuality> {
 				//java.util.Date date_redation_Str = formatter.parse(act.getDate_redaction().toString());
 				java.sql.Date date_redaction_DB = new java.sql.Date(act.getDate_redaction().getTime());
 			
-				
-				
 			Statement statement = connection.createStatement();
-			
 			
 			String sql = "INSERT INTO actuality (titre,id_category,description,date_ajout,date_redaction,source,type,valide,image) values("
 					+ "'"+ act.getTitre()+ "',"

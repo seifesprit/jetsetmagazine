@@ -32,7 +32,6 @@ public class PrincipalProgram {
 		leader2.setCategory(category2);
 		
 		//System.out.println(leader2);
-		
 		leaderDao.update(leader2);
 		//leaderDao.remove(leader2);
 		System.out.println(leaderDao.findAll());
