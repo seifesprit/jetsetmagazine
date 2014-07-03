@@ -5,17 +5,25 @@ public class Subscriber {
 	private int id_auto;
 	private String nom_prenom;
 	private String email;
+	private String id_fb ;
+	private String image;
 	
 	public Subscriber() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Subscriber(int id_auto, String nom_prenom, String email) {
+	public Subscriber(int id_auto, String nom_prenom, String email, String id_fb,String image) {
 		super();
 		this.id_auto = id_auto;
 		this.nom_prenom = nom_prenom;
 		this.email = email;
+		this.id_fb = id_fb;
+		this.setImage(image);
 	}
+
+
+
+
 
 	@Override
 	public int hashCode() {
@@ -23,6 +31,7 @@ public class Subscriber {
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + id_auto;
+		result = prime * result + ((id_fb == null) ? 0 : id_fb.hashCode());
 		result = prime * result
 				+ ((nom_prenom == null) ? 0 : nom_prenom.hashCode());
 		return result;
@@ -44,6 +53,11 @@ public class Subscriber {
 			return false;
 		if (id_auto != other.id_auto)
 			return false;
+		if (id_fb == null) {
+			if (other.id_fb != null)
+				return false;
+		} else if (!id_fb.equals(other.id_fb))
+			return false;
 		if (nom_prenom == null) {
 			if (other.nom_prenom != null)
 				return false;
@@ -55,7 +69,7 @@ public class Subscriber {
 	@Override
 	public String toString() {
 		return "Subscriber [id_auto=" + id_auto + ", nom_prenom=" + nom_prenom
-				+ ", email=" + email + "]";
+				+ ", email=" + email + ", id_fb=" + id_fb + "]";
 	}
 
 	public int getId_auto() {
@@ -80,6 +94,22 @@ public class Subscriber {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getId_fb() {
+		return id_fb;
+	}
+
+	public void setId_fb(String id_fb) {
+		this.id_fb = id_fb;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 	
 	
