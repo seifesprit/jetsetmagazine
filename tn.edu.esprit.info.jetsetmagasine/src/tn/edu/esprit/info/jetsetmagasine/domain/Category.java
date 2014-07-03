@@ -4,7 +4,7 @@ public class Category {
 
 	private int id_auto;
 	private String libelle;
-	
+
 	public Category() {
 		// TODO Auto-generated constructor stub
 	}
@@ -63,5 +63,5 @@ public class Category {
 			return false;
 		return true;
 	}
-	
+
 }
