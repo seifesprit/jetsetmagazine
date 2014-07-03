@@ -80,7 +80,7 @@ public class PrincipaleTwo extends JFrame {
 		});
 		mnData.add(jmenu_category);
 		
-		JMenuItem jmenu_user = new JMenuItem("User");
+		JMenuItem jmenu_user = new JMenuItem("Leader");
 		jmenu_user.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LeaderList leaderList = new LeaderList();
