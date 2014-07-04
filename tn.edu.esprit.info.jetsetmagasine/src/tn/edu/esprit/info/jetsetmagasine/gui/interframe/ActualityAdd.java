@@ -194,7 +194,7 @@ public class ActualityAdd extends JDialog {
 		JButton btnTestdown = new JButton("testdown");
 		btnTestdown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				GoogleDrive googleDrive = new GoogleDrive("0B7GNL_KltwuPRzdJdUd1bzlMMm8");
+				GoogleDrive googleDrive = new GoogleDrive("0B7GNL_KltwuPWTkyYjdDYzVEN2c");
 			  	InputStream is;
 				try {
 					is = googleDrive.downloadFile(googleDrive.printFile());
@@ -206,9 +206,7 @@ public class ActualityAdd extends JDialog {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
-				
-				
+				}				
 			}
 		});
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
