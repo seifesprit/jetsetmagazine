@@ -1,5 +1,11 @@
 package tn.edu.esprit.info.jetsetmagasine.test;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Date;
+
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
@@ -12,11 +18,6 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-
 
 public class DriveCommandLine {
 
@@ -28,7 +29,7 @@ public class DriveCommandLine {
   public static void main(String[] args) throws IOException {
     HttpTransport httpTransport = new NetHttpTransport();
     JsonFactory jsonFactory = new JacksonFactory();
-   
+    
     GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
         httpTransport, jsonFactory, CLIENT_ID, CLIENT_SECRET, Arrays.asList(DriveScopes.DRIVE))
         .setAccessType("online")
@@ -37,6 +38,7 @@ public class DriveCommandLine {
     String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
     System.out.println("Please open the following URL in your browser then type the authorization code:");
     System.out.println("  " + url);
+    
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     String code = br.readLine();
     
@@ -48,6 +50,7 @@ public class DriveCommandLine {
 
     //Insert a file  
     File body = new File();
+    
     body.setTitle("My document");
     body.setDescription("A test document");
     body.setMimeType("text/plain");

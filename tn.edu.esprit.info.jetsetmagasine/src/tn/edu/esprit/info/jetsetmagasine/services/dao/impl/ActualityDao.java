@@ -4,8 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +16,7 @@ public class ActualityDao implements IDaoGenerique<Actuality> {
 	private static ActualityDao instancesof;
 
 	private ActualityDao() {
-		
+
 		// TODO Auto-generated constructor stub
 	}
 
@@ -27,30 +25,48 @@ public class ActualityDao implements IDaoGenerique<Actuality> {
 		// TODO Auto-generated method stub
 		Connection connection = DataBaseConnection.giveMyconnection();
 		try {
-			
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd"); // your template here
-			//java.util.Date date_ajout_Str = formatter.parse(act.getDate_ajout().toString());
-				java.sql.Date date_ajout_DB = new java.sql.Date(act.getDate_ajout().getTime());
-				
-				//java.util.Date date_redation_Str = formatter.parse(act.getDate_redaction().toString());
-				java.sql.Date date_redaction_DB = new java.sql.Date(act.getDate_redaction().getTime());
-			
+
+			// java.util.Date date_ajout_Str =
+			// formatter.parse(act.getDate_ajout().toString());
+			java.sql.Date date_ajout_DB = new java.sql.Date(act.getDate_ajout()
+					.getTime());
+
+			// java.util.Date date_redation_Str =
+			// formatter.parse(act.getDate_redaction().toString());
+			java.sql.Date date_redaction_DB = new java.sql.Date(act
+					.getDate_redaction().getTime());
+
 			Statement statement = connection.createStatement();
-			
+
 			String sql = "INSERT INTO actuality (titre,id_category,description,date_ajout,date_redaction,source,type,valide,image) values("
-					+ "'"+ act.getTitre()+ "',"
-					+ "'"+ act.getCategory().getId_auto()+ "',"
-					+ "'"+ act.getDescription()+ "',"
-					+ "'"+date_ajout_DB+ "',"
-					+ "'"+date_redaction_DB+ "',"
-					+ "'"+act.getSource()+ "',"
-					+ "'"+act.getType()+ "',"
-					+ ""+act.isValide()+ ","
-					+ "'"+act.getImage() + "')";
+					+ "'"
+					+ act.getTitre()
+					+ "',"
+					+ "'"
+					+ act.getCategory().getId_auto()
+					+ "',"
+					+ "'"
+					+ act.getDescription()
+					+ "',"
+					+ "'"
+					+ date_ajout_DB
+					+ "',"
+					+ "'"
+					+ date_redaction_DB
+					+ "',"
+					+ "'"
+					+ act.getSource()
+					+ "',"
+					+ "'"
+					+ act.getType()
+					+ "',"
+					+ ""
+					+ act.isValide()
+					+ "," + "'" + act.getImage() + "')";
 
 			statement.executeUpdate(sql);
 			return true;
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,7 +81,7 @@ public class ActualityDao implements IDaoGenerique<Actuality> {
 		}
 
 		return false;
-		
+
 	}
 
 	@Override
@@ -85,22 +101,20 @@ public class ActualityDao implements IDaoGenerique<Actuality> {
 					+ act.getDescription()
 					+ "',"
 					+ "'"
-					+act.getDate_ajout()
+					+ act.getDate_ajout()
 					+ "',"
 					+ "'"
-					+act.getDate_redaction()
+					+ act.getDate_redaction()
 					+ "',"
 					+ "'"
-					+act.getSource()
+					+ act.getSource()
 					+ "',"
 					+ "'"
-					+act.getType()
+					+ act.getType()
 					+ "',"
 					+ "'"
-					+act.isValide()
-					+ "',"
-					+ "'"
-				    +act.getImage() + "')";
+					+ act.isValide()
+					+ "'," + "'" + act.getImage() + "')";
 
 			statement.executeUpdate(sql);
 			return true;
@@ -150,7 +164,7 @@ public class ActualityDao implements IDaoGenerique<Actuality> {
 	public List<Actuality> findAll() {
 		Connection connection = DataBaseConnection.giveMyconnection();
 		List<Actuality> acts = new ArrayList<Actuality>();
-		
+
 		try {
 
 			Statement statement = connection.createStatement();
@@ -164,9 +178,10 @@ public class ActualityDao implements IDaoGenerique<Actuality> {
 						resultSet.getDate("date_ajout"),
 						resultSet.getDate("date_redaction"),
 						resultSet.getBoolean("valide"),
-						resultSet.getString("image"),
-						LeaderDao.getInstanceof().findById(resultSet.getInt("id_leader")),
-						CategoryDao.getInstanceof().findById(resultSet.getInt("id_category")),
+						resultSet.getString("image"), LeaderDao.getInstanceof()
+								.findById(resultSet.getInt("id_leader")),
+						CategoryDao.getInstanceof().findById(
+								resultSet.getInt("id_category")),
 						resultSet.getString("source"));
 				acts.add(act);
 			}
@@ -194,8 +209,9 @@ public class ActualityDao implements IDaoGenerique<Actuality> {
 		try {
 
 			Statement statement = connection.createStatement();
-			String sql = "select * from actuality where id_auto =" +id;
+			String sql = "select * from actuality where id_auto =" + id;
 			ResultSet resultSet = statement.executeQuery(sql);
+			if (resultSet.first()) {
 				Actuality act = new Actuality(resultSet.getInt("id_auto"),
 						resultSet.getString("titre"),
 						resultSet.getString("description"),
@@ -203,11 +219,13 @@ public class ActualityDao implements IDaoGenerique<Actuality> {
 						resultSet.getDate("date_ajout"),
 						resultSet.getDate("date_redaction"),
 						resultSet.getBoolean("valide"),
-						resultSet.getString("image"),
-						LeaderDao.getInstanceof().findById(resultSet.getInt("id_leader")),
-						CategoryDao.getInstanceof().findById(resultSet.getInt("id_category")),
+						resultSet.getString("image"), LeaderDao.getInstanceof()
+								.findById(resultSet.getInt("id_leader")),
+						CategoryDao.getInstanceof().findById(
+								resultSet.getInt("id_category")),
 						resultSet.getString("source"));
-			return act;
+				return act;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

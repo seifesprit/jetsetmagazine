@@ -173,14 +173,16 @@ public class LeaderDao implements IDaoGenerique<Leader> {
 			Statement statement = connection.createStatement();
 			String sql = "select * from user where id_auto=" + id;
 			ResultSet resultSet = statement.executeQuery(sql);
-			resultSet.first();
-			Leader leader = new Leader(resultSet.getInt("id_auto"),
-					resultSet.getString("login"),
-					resultSet.getString("password"),
-					resultSet.getString("nom_prenom"),
-					resultSet.getString("email"), null);
-
-			return leader;
+			if(resultSet.first()){
+			
+				Leader leader = new Leader(resultSet.getInt("id_auto"),
+						resultSet.getString("login"),
+						resultSet.getString("password"),
+						resultSet.getString("nom_prenom"),
+						resultSet.getString("email"), null);
+	
+				return leader;
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

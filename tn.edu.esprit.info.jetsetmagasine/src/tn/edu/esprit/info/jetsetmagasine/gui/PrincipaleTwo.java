@@ -36,7 +36,7 @@ import javax.swing.JLabel;
 public class PrincipaleTwo extends JFrame {
 
 	private JPanel contentPane;
-	private Leader leader;
+	public static Leader leader;
 
 
 	/**
