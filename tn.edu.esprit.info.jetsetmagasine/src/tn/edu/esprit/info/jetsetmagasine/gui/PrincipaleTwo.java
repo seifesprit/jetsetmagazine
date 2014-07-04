@@ -18,6 +18,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import tn.edu.esprit.info.jetsetmagasine.domain.Leader;
 import tn.edu.esprit.info.jetsetmagasine.gui.interframe.ActualityList;
 import tn.edu.esprit.info.jetsetmagasine.gui.interframe.CategoryList;
 import tn.edu.esprit.info.jetsetmagasine.gui.interframe.LeaderList;
@@ -30,31 +31,19 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JLabel;
 
 public class PrincipaleTwo extends JFrame {
 
 	private JPanel contentPane;
+	private Leader leader;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					PrincipaleTwo frame = new PrincipaleTwo();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public PrincipaleTwo() {
+	public PrincipaleTwo(Leader leader) {
+		this.leader = leader;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 668, 377);
 		
@@ -102,16 +91,16 @@ public class PrincipaleTwo extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 642, Short.MAX_VALUE)
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGap(0, 308, Short.MAX_VALUE)
-		);
-		contentPane.setLayout(gl_contentPane);
+		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		JToolBar toolBar = new JToolBar();
+		contentPane.add(toolBar, BorderLayout.NORTH);
+		
+		JLabel lblName = new JLabel("Name");
+		toolBar.add(lblName);
+		
+		//loading info leader
+		lblName.setText(leader.getNom_prenom());
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {

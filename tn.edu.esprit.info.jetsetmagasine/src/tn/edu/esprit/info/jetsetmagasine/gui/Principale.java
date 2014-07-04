@@ -49,12 +49,17 @@ import com.facebook.halo.application.types.User;
 
 import tn.edu.esprit.info.jetsetmagasine.gui.model.MyTableModel;
 import tn.edu.esprit.info.jetsetmagasine.gui.utilities.ConnectFacebook;
+import tn.edu.esprit.info.jetsetmagasine.gui.utilities.LoginConfiguration;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JToolBar;
+
 import java.awt.Color;
 import java.awt.SystemColor;
+
+import javax.swing.border.LineBorder;
 
 public class Principale extends JFrame implements TableModelListener {
 
@@ -73,11 +78,10 @@ public class Principale extends JFrame implements TableModelListener {
 	private JButton btnLogin;
 	private boolean islogin = false;
 	private ConnectFacebook connectFacebook;
-	private JLabel email_fb;
 
 	
 	public JLabel getEmail_fb() {
-		return email_fb;
+		return this.email_fb;
 	}
 
 	public void setIslogin(boolean islogin) {
@@ -96,14 +100,6 @@ public class Principale extends JFrame implements TableModelListener {
 		return picture_fb;
 	}
 
-	public void setName_fb(JLabel name_fb) {
-		this.name_fb = name_fb;
-	}
-
-	public void setPicture_fb(JLabel picture_fb) {
-		this.picture_fb = picture_fb;
-	}
-
 	private String[] columnNames = { "First Name", "Last Name", "Sport",
 			"# of Years", "Vegetarian" };
 
@@ -115,6 +111,10 @@ public class Principale extends JFrame implements TableModelListener {
 			{ "Jane", "White", "Speed reading", new Integer(20),
 					new Boolean(true) },
 			{ "Joe", "Brown", "Pool", new Integer(10), new Boolean(false) } };
+	private JLabel email_fb;
+	private JPanel panel_1;
+	private JButton btn_config;
+	private JButton btnActuliser;
 	
 
 	/**
@@ -197,6 +197,7 @@ public class Principale extends JFrame implements TableModelListener {
 		btnLogin.setBackground(SystemColor.control);
 		btnLogin.setIcon(new ImageIcon(
 				".\\resource\\1404396201_678128-social-facebook.png"));
+		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (islogin) {
@@ -215,8 +216,17 @@ public class Principale extends JFrame implements TableModelListener {
 				}
 			}
 		});
+		
+		btnActuliser = new JButton("refresh");
+		btnActuliser.setIcon(new ImageIcon(
+				".\\resource\\refresh.png"));
+		btnActuliser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		toolBar.add(btnActuliser);
 
-		JLabel lblJetsetmagasineDate = new JLabel("JetSetMagasine     Date : ");
+		JLabel lblJetsetmagasineDate = new JLabel("  JetSetMagasine     Date : ");
 		toolBar.add(lblJetsetmagasineDate);
 
 		toolBar.add(lblDate);
@@ -227,7 +237,7 @@ public class Principale extends JFrame implements TableModelListener {
 		JLabel label = new JLabel("          ");
 		toolBar.add(label);
 
-		lblRecherche = new JLabel("Recherche :");
+		lblRecherche = new JLabel("Recherche :  ");
 		toolBar.add(lblRecherche);
 
 		textField_recherche = new JTextField();
@@ -235,38 +245,52 @@ public class Principale extends JFrame implements TableModelListener {
 		textField_recherche.setToolTipText("Recherche");
 		textField_recherche.setColumns(10);
 		toolBar.add(btnLogin);
-
+		
+		btn_config = new JButton("");
+		btn_config.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				LoginConfiguration.getinstanceof(current).setVisible(true);
+			}
+		});
+		toolBar.add(btn_config);
+		btn_config.setIcon(new ImageIcon(
+				".\\resource\\configuration.png"));
+		
 		JPanel panel_top = new JPanel();
 		panel.add(panel_top);
 		panel_top.setPreferredSize(new Dimension(450, 50));
-
-		name_fb = new JLabel("");
 		picture_fb = new JLabel("");
-		email_fb = new JLabel("");
-
-		GroupLayout gl_panel_top = new GroupLayout(panel_top);
-		gl_panel_top.setHorizontalGroup(
-			gl_panel_top.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_top.createSequentialGroup()
-					.addGap(9)
-					.addComponent(picture_fb)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_top.createParallelGroup(Alignment.LEADING)
-						.addComponent(email_fb)
-						.addComponent(name_fb))
-					.addContainerGap(644, Short.MAX_VALUE))
-		);
-		gl_panel_top.setVerticalGroup(
-			gl_panel_top.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_top.createSequentialGroup()
-					.addGroup(gl_panel_top.createParallelGroup(Alignment.BASELINE)
-						.addComponent(name_fb)
-						.addComponent(picture_fb))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(email_fb)
-					.addGap(30))
-		);
-		panel_top.setLayout(gl_panel_top);
+		panel_top.setLayout(new BorderLayout(0, 0));
+		panel_top.add(picture_fb, BorderLayout.WEST);
+		
+		panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(SystemColor.activeCaption, 1, true));
+		panel_top.add(panel_1, BorderLayout.CENTER);
+		
+				name_fb = new JLabel("");
+				name_fb.setBackground(Color.WHITE);
+				
+				email_fb = new JLabel("");
+				GroupLayout gl_panel_1 = new GroupLayout(panel_1);
+				gl_panel_1.setHorizontalGroup(
+					gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(25)
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(email_fb, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(name_fb, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
+							.addGap(362))
+				);
+				gl_panel_1.setVerticalGroup(
+					gl_panel_1.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(5)
+							.addComponent(name_fb, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+							.addGap(3)
+							.addComponent(email_fb, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+							.addGap(14))
+				);
+				panel_1.setLayout(gl_panel_1);
 		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {

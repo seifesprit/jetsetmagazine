@@ -2,7 +2,8 @@ package tn.edu.esprit.info.jetsetmagasine.gui.interframe;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.beans.PropertyVetoException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.GroupLayout;
@@ -68,12 +69,36 @@ public class CategoryList extends JInternalFrame {
 		panel.add(toolBar, BorderLayout.NORTH);
 
 		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CategoryAdd categoryAdd = new CategoryAdd();
+				categoryAdd.setVisible(true);
+			}
+		});
 		toolBar.add(btnAdd);
 
 		JButton btnUpdate = new JButton("Update");
 		toolBar.add(btnUpdate);
 
 		JButton btnRemove = new JButton("Remove");
+		btnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				try {
+					if (table.getSelectedRowCount() == 0)
+						return;
+					CategoryDao.getInstanceof().remove(
+							new Category(Integer.parseInt(table.getValueAt(
+									table.getSelectedRow(), 0).toString()),
+									table.getValueAt(table.getSelectedRow(), 1)
+											.toString()));
+					refreshTable();
+				} catch (Exception ee) {
+
+				}
+
+			}
+		});
 		toolBar.add(btnRemove);
 
 		JPanel panel_1 = new JPanel();
@@ -125,7 +150,7 @@ public class CategoryList extends JInternalFrame {
 		refreshTable();
 
 		getContentPane().add(panel2, BorderLayout.CENTER);
-		
+
 	}
 
 	public void refreshTable() {

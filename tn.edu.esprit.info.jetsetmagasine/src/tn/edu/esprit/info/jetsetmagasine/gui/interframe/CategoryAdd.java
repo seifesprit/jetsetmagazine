@@ -44,7 +44,6 @@ public class CategoryAdd extends JDialog {
 	protected static final Category Category = null;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField textField_titre;
-	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -87,7 +86,7 @@ public class CategoryAdd extends JDialog {
 			}
 		});
 
-		setBounds(100, 100, 543, 219);
+		setBounds(100, 100, 443, 150);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
@@ -97,39 +96,24 @@ public class CategoryAdd extends JDialog {
 
 
 		ButtonGroup buttonGroup = new ButtonGroup();
-		
-		JLabel lblNewLabel = new JLabel("ID :");
-		
-		textField = new JTextField();
-		textField.setEnabled(false);
-		textField.setEditable(false);
-		textField.setColumns(10);
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(24)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblTitre)
-						.addComponent(lblNewLabel))
-					.addGap(46)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, 240, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_titre, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE))
-					.addGap(174))
+					.addGap(22)
+					.addComponent(lblTitre)
+					.addGap(54)
+					.addComponent(textField_titre, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(168, Short.MAX_VALUE))
 		);
 		gl_contentPanel.setVerticalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
-					.addGap(20)
-					.addGroup(gl_contentPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblNewLabel)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
+					.addContainerGap()
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTitre)
-						.addComponent(textField_titre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(312, Short.MAX_VALUE))
+						.addComponent(textField_titre, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblTitre))
+					.addContainerGap(83, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -141,13 +125,9 @@ public class CategoryAdd extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 
-						CategoryAdd category = new CategoryAdd(0, textField.getText());
-
-						
-						System.out.println(category);
-
-						CategoryDao.getInstanceof().add(CategoryAdd);
-
+						Category category = new Category(0, textField_titre.getText());
+						CategoryDao.getInstanceof().add(category);
+						dispose();
 					}
 				});
 				buttonPane.add(okButton);
@@ -155,10 +135,21 @@ public class CategoryAdd extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
 		}
+		
+		JPanel panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.NORTH);
+		
+		JLabel lblAddNewCategory = new JLabel("Add new category");
+		panel.add(lblAddNewCategory);
 	}
 
 	public CategoryAdd(int i, String text) {
