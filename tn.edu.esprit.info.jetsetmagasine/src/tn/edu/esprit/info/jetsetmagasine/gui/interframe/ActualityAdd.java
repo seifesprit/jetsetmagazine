@@ -58,6 +58,7 @@ public class ActualityAdd extends JDialog {
 	private JSpinner spinner_date;
 	private JTextPane text_description;
 	private JComboBox comboBox_category;
+	private String id_image;
 
 	/**
 	 * Launch the application.
@@ -100,7 +101,7 @@ public class ActualityAdd extends JDialog {
 			}
 		});
 
-		setBounds(100, 100, 543, 471);
+		setBounds(100, 100, 559, 471);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
@@ -148,9 +149,6 @@ public class ActualityAdd extends JDialog {
 				try {
 					if (IMG_PATH != null) {
 						
-						GoogleDrive googleDrive = new GoogleDrive(IMG_PATH);
-						googleDrive.uplodeGoogleDrive();
-						
 						img = ImageIO.read(new File(IMG_PATH));
 						ImageIcon icon = new ImageIcon(img);
 						JLabel label = new JLabel(icon);
@@ -190,80 +188,54 @@ public class ActualityAdd extends JDialog {
 				Calendar.DAY_OF_YEAR));
 
 		JLabel lblDateHeure = new JLabel("Date / Heure :");
-		
-		JButton btnTestdown = new JButton("testdown");
-		btnTestdown.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				GoogleDrive googleDrive = new GoogleDrive("0B7GNL_KltwuPWTkyYjdDYzVEN2c");
-			  	InputStream is;
-				try {
-					is = googleDrive.downloadFile(googleDrive.printFile());
-					Image image = ImageIO.read(is);
-					ImageIcon icon = new ImageIcon(image);
-					JLabel label = new JLabel(icon);
-					JOptionPane.showMessageDialog(null, label);
-					
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}				
-			}
-		});
 		GroupLayout gl_contentPanel = new GroupLayout(contentPanel);
 		gl_contentPanel.setHorizontalGroup(
 			gl_contentPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPanel.createSequentialGroup()
+					.addContainerGap()
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(gl_contentPanel.createSequentialGroup()
+								.addGap(1)
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+									.addComponent(lblImage)
+									.addComponent(lblType))
+								.addPreferredGap(ComponentPlacement.RELATED, 477, Short.MAX_VALUE))
+							.addGroup(gl_contentPanel.createSequentialGroup()
+								.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 									.addGroup(gl_contentPanel.createSequentialGroup()
-										.addGap(1)
 										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-											.addComponent(lblImage)
-											.addComponent(lblType))
-										.addPreferredGap(ComponentPlacement.RELATED, 464, Short.MAX_VALUE))
-									.addGroup(gl_contentPanel.createSequentialGroup()
+											.addComponent(lblDateHeure)
+											.addComponent(lblCategory))
+										.addPreferredGap(ComponentPlacement.UNRELATED)
 										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 											.addGroup(gl_contentPanel.createSequentialGroup()
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-													.addComponent(lblDateHeure)
-													.addComponent(lblCategory))
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-													.addGroup(gl_contentPanel.createSequentialGroup()
-														.addComponent(rdbtnImage)
-														.addPreferredGap(ComponentPlacement.RELATED)
-														.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-															.addGroup(gl_contentPanel.createSequentialGroup()
-																.addComponent(label_image)
-																.addGap(179)
-																.addComponent(btnParcourir)
-																.addPreferredGap(ComponentPlacement.RELATED)
-																.addComponent(btnShowImage))
-															.addGroup(gl_contentPanel.createSequentialGroup()
-																.addGap(54)
-																.addComponent(rdbtnVideo)
-																.addGap(43)
-																.addComponent(rdbtnSon))))
-													.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-														.addComponent(spinner_date, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-														.addComponent(textField_source, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
-														.addComponent(comboBox_category, 0, 374, Short.MAX_VALUE))))
+												.addComponent(rdbtnImage)
+												.addGap(13)
+												.addGap(54)
+												.addComponent(rdbtnVideo)
+												.addGap(43)
+												.addComponent(rdbtnSon))
+											.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+												.addComponent(spinner_date, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(textField_source, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+												.addComponent(comboBox_category, 0, 374, Short.MAX_VALUE))
 											.addGroup(gl_contentPanel.createSequentialGroup()
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-													.addComponent(lblDescription)
-													.addComponent(lblTitre))
-												.addGap(18)
-												.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
-													.addComponent(textField_titre, GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
-													.addComponent(text_description, GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE))))
-										.addGap(42)))
-								.addComponent(lblSource)))
-						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(62)
-							.addComponent(btnTestdown)))
+												.addComponent(label_image, GroupLayout.PREFERRED_SIZE, 241, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(btnParcourir)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(btnShowImage))))
+									.addGroup(gl_contentPanel.createSequentialGroup()
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+											.addComponent(lblDescription)
+											.addComponent(lblTitre))
+										.addGap(18)
+										.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+											.addComponent(textField_titre, GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE)
+											.addComponent(text_description, GroupLayout.DEFAULT_SIZE, 393, Short.MAX_VALUE))))
+								.addGap(42)))
+						.addComponent(lblSource))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		gl_contentPanel.setVerticalGroup(
@@ -283,15 +255,15 @@ public class ActualityAdd extends JDialog {
 						.addComponent(lblCategory))
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPanel.createSequentialGroup()
-							.addGap(12)
-							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblImage)
-								.addComponent(label_image)))
-						.addGroup(gl_contentPanel.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 								.addComponent(btnShowImage)
-								.addComponent(btnParcourir))))
+								.addComponent(btnParcourir)))
+						.addGroup(gl_contentPanel.createSequentialGroup()
+							.addGap(12)
+							.addGroup(gl_contentPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(label_image, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblImage))))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblSource)
@@ -306,9 +278,7 @@ public class ActualityAdd extends JDialog {
 					.addGroup(gl_contentPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblDateHeure)
 						.addComponent(spinner_date, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(45)
-					.addComponent(btnTestdown)
-					.addContainerGap(51, Short.MAX_VALUE))
+					.addContainerGap(119, Short.MAX_VALUE))
 		);
 		contentPanel.setLayout(gl_contentPanel);
 		{
@@ -327,10 +297,19 @@ public class ActualityAdd extends JDialog {
 							type = "son";
 						if (rdbtnVideo.isSelected())
 							type = "video";
+						
+						try {
+							
+							id_image = GoogleDrive.uplodeGoogleDrive(IMG_PATH);
+							
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 
 						Actuality actuality = new Actuality(0, textField_titre
 								.getText(), text_description.getText(), type,
-								new Date(),(Date) spinner_date.getValue(), false, IMG_PATH,
+								new Date(),(Date) spinner_date.getValue(), false, id_image,
 								PrincipaleTwo.leader,
 								(Category) comboBox_category.getSelectedItem(),
 								textField_source.getText());
