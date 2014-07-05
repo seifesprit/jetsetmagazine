@@ -63,7 +63,7 @@ public class LoginConfiguration extends JFrame {
 		setResizable(false);
 		setType(Type.POPUP);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 371, 229);
+		setBounds(100, 100, 347, 208);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -72,7 +72,7 @@ public class LoginConfiguration extends JFrame {
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.NORTH);
 		
-		JLabel lblBackofficejetsetmagasine = new JLabel("BackOffice 'JetSetMagasine'");
+		JLabel lblBackofficejetsetmagasine = new JLabel("BackOffice 'Crystalium Magasine'");
 		lblBackofficejetsetmagasine.setFont(new Font("Arial", Font.BOLD, 14));
 		panel.add(lblBackofficejetsetmagasine);
 		
@@ -159,7 +159,7 @@ public class LoginConfiguration extends JFrame {
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		contentPane.add(panel_2, BorderLayout.SOUTH);
 		
-		JLabel lblNewLabel = new JLabel("JetSetMagasine By ***** 2014");
+		JLabel lblNewLabel = new JLabel("Magasine By Crystalium 2014");
 		panel_2.add(lblNewLabel);
 	}
 }
