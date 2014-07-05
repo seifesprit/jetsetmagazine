@@ -117,6 +117,7 @@ public class Principale extends JFrame implements TableModelListener {
 	 * Create the frame.
 	 */
 	public Principale() {
+		setTitle("Crystalium Magasine");
 		
 		current = this;
 		setExtendedState(JFrame.MAXIMIZED_BOTH); 
@@ -207,7 +208,7 @@ public class Principale extends JFrame implements TableModelListener {
 		});
 		toolBar.add(btnActuliser);
 
-		JLabel lblJetsetmagasineDate = new JLabel("  JetSetMagasine     Date : ");
+		JLabel lblJetsetmagasineDate = new JLabel(" CrystaliumMagasine     Date : ");
 		toolBar.add(lblJetsetmagasineDate);
 
 		toolBar.add(lblDate);
@@ -236,6 +237,10 @@ public class Principale extends JFrame implements TableModelListener {
 		toolBar.add(btn_config);
 		btn_config.setIcon(new ImageIcon(
 				".\\resource\\configuration.png"));
+		
+		JButton btnabout = new JButton("?");
+		btnabout.setFont(new Font("Tahoma", Font.BOLD, 12));
+		toolBar.add(btnabout);
 		
 		JPanel panel_top = new JPanel();
 		panel.add(panel_top);
