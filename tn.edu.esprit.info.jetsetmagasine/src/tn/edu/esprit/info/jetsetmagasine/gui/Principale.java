@@ -239,7 +239,7 @@ public class Principale extends JFrame implements TableModelListener {
 		
 		JPanel panel_top = new JPanel();
 		panel.add(panel_top);
-		panel_top.setPreferredSize(new Dimension(450, 100));
+		panel_top.setPreferredSize(new Dimension(450, 50));
 		picture_fb = new JLabel("");
 		panel_top.setLayout(new BorderLayout(0, 0));
 		panel_top.add(picture_fb, BorderLayout.WEST);
@@ -255,8 +255,8 @@ public class Principale extends JFrame implements TableModelListener {
 				
 				JLabel label_1 = new JLabel("");
 				Toolkit toolkit = Toolkit.getDefaultToolkit();
-				Image image = toolkit.getImage(".\\resource\\logo.jpg");
-				Image scaledImage = image.getScaledInstance(300,95, Image.SCALE_DEFAULT);   
+				Image image = toolkit.getImage(".\\resource\\2.png");
+				Image scaledImage = image.getScaledInstance(300,60, Image.SCALE_DEFAULT);   
 				ImageIcon icon=new ImageIcon(scaledImage);
 				label_1.setIcon(icon);
 				
