@@ -114,7 +114,7 @@ public class GoogleDrive {
 
 		// Insert a file
 		File body = new File();
-		body.setTitle(new Date().getTime() + "");
+		body.setTitle("jetsetmagasine/"+new Date().getTime() + "");
 		// body.setDescription("A test document");
 		body.setMimeType("image/jpeg");
 

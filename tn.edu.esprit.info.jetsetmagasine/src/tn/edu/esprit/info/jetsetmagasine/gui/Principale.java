@@ -5,7 +5,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
@@ -36,6 +38,8 @@ import javax.swing.table.TableModel;
 import tn.edu.esprit.info.jetsetmagasine.gui.model.MyTableModel;
 import tn.edu.esprit.info.jetsetmagasine.gui.utilities.ConnectFacebook;
 import tn.edu.esprit.info.jetsetmagasine.gui.utilities.LoginConfiguration;
+
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class Principale extends JFrame implements TableModelListener {
 
@@ -115,6 +119,7 @@ public class Principale extends JFrame implements TableModelListener {
 	public Principale() {
 		
 		current = this;
+		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		connectFacebook = new ConnectFacebook(current);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 735, 414);
@@ -234,7 +239,7 @@ public class Principale extends JFrame implements TableModelListener {
 		
 		JPanel panel_top = new JPanel();
 		panel.add(panel_top);
-		panel_top.setPreferredSize(new Dimension(450, 50));
+		panel_top.setPreferredSize(new Dimension(450, 100));
 		picture_fb = new JLabel("");
 		panel_top.setLayout(new BorderLayout(0, 0));
 		panel_top.add(picture_fb, BorderLayout.WEST);
@@ -247,15 +252,25 @@ public class Principale extends JFrame implements TableModelListener {
 				name_fb.setBackground(Color.WHITE);
 				
 				email_fb = new JLabel("");
+				
+				JLabel label_1 = new JLabel("");
+				Toolkit toolkit = Toolkit.getDefaultToolkit();
+				Image image = toolkit.getImage(".\\resource\\logo.jpg");
+				Image scaledImage = image.getScaledInstance(300,95, Image.SCALE_DEFAULT);   
+				ImageIcon icon=new ImageIcon(scaledImage);
+				label_1.setIcon(icon);
+				
+				
 				GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 				gl_panel_1.setHorizontalGroup(
 					gl_panel_1.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addGap(25)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING, false)
-								.addComponent(email_fb, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(name_fb, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
-							.addGap(362))
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+								.addComponent(email_fb, GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
+								.addComponent(name_fb, GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE))
+							.addGap(312)
+							.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 301, GroupLayout.PREFERRED_SIZE))
 				);
 				gl_panel_1.setVerticalGroup(
 					gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -264,7 +279,8 @@ public class Principale extends JFrame implements TableModelListener {
 							.addComponent(name_fb, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
 							.addGap(3)
 							.addComponent(email_fb, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-							.addGap(14))
+							.addContainerGap(62, Short.MAX_VALUE))
+						.addComponent(label_1, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
 				);
 				panel_1.setLayout(gl_panel_1);
 		TimerTask task = new TimerTask() {

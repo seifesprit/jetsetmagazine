@@ -33,6 +33,8 @@ import tn.edu.esprit.info.jetsetmagasine.domain.Actuality;
 import tn.edu.esprit.info.jetsetmagasine.gui.utilities.GoogleDrive;
 import tn.edu.esprit.info.jetsetmagasine.services.business.impl.ActualityBusiness;
 import tn.edu.esprit.info.jetsetmagasine.services.dao.impl.ActualityDao;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class ActualityList extends JInternalFrame {
 	private JTextField textField_filtre;
@@ -118,6 +120,12 @@ public class ActualityList extends JInternalFrame {
 		JLabel lblFiltre = new JLabel("Filtre :");
 
 		textField_filtre = new JTextField();
+		textField_filtre.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				refreshTable();
+			}
+		});
 		textField_filtre.setColumns(10);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		panel_1.add(lblFiltre, BorderLayout.WEST);
@@ -176,7 +184,7 @@ public class ActualityList extends JInternalFrame {
 		System.out.println("Refresh table");
 		table.removeAll();
 
-		List<Actuality> actualities = ActualityDao.getInstanceof().findAll();
+		List<Actuality> actualities = ActualityBusiness.getIntanceof().findByWordKey(textField_filtre.getText());
 
 		Object[][] objects = new Object[actualities.size()][7];
 		int i = 0;
