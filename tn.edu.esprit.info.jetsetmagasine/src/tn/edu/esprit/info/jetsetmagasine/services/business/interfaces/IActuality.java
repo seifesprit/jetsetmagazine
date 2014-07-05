@@ -8,4 +8,5 @@ public interface IActuality {
 
 	void changeValide(int id , boolean value);
 	List<Actuality> findByWordKey(String word);
+	List<Actuality> findByCategory(int id);
 }

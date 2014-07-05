@@ -102,4 +102,48 @@ public class ActualityBusiness implements IActuality {
 		return null;
 	}
 
+	@Override
+	public List<Actuality> findByCategory(int id) {
+		Connection connection = DataBaseConnection.giveMyconnection();
+		List<Actuality> acts = new ArrayList<Actuality>();
+
+		try {
+
+			String sql = "select * from actuality where actuality.id_category = "+id+" and valide=1 order by date_redaction DESC";
+			
+			Statement statement = connection.createStatement();
+			
+			ResultSet resultSet = statement.executeQuery(sql);
+			while (resultSet.next()) {
+				Actuality act = new Actuality(resultSet.getInt("id_auto"),
+						resultSet.getString("titre"),
+						resultSet.getString("description"),
+						resultSet.getString("type"),
+						resultSet.getDate("date_ajout"),
+						resultSet.getDate("date_redaction"),
+						resultSet.getBoolean("valide"),
+						resultSet.getString("image"), LeaderDao.getInstanceof()
+								.findById(resultSet.getInt("id_leader")),
+						CategoryDao.getInstanceof().findById(
+								resultSet.getInt("id_category")),
+						resultSet.getString("source"));
+				acts.add(act);
+			}
+			return acts;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return null;
+	}
+
 }

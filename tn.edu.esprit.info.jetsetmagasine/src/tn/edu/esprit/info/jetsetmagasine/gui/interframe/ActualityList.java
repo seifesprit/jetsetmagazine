@@ -28,11 +28,13 @@ import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import tn.edu.esprit.info.jetsetmagasine.domain.Actuality;
 import tn.edu.esprit.info.jetsetmagasine.gui.utilities.GoogleDrive;
 import tn.edu.esprit.info.jetsetmagasine.services.business.impl.ActualityBusiness;
 import tn.edu.esprit.info.jetsetmagasine.services.dao.impl.ActualityDao;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -201,25 +203,28 @@ public class ActualityList extends JInternalFrame {
 			objects[i][6] = actuality.isValide();
 			i++;
 		}
-		table.setModel(new DefaultTableModel(objects,
-				new String[] { "id", "Titre", "image", "Date / Heure", "Type",
-						"Categorie", "Valide" }) {
-			Class[] columnTypes = new Class[] { Object.class, Object.class,
-					ImageIcon.class, Object.class, Object.class, Object.class,
-					Boolean.class };
-
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"id", "Titre", "image", "Date / Heure", "Type", "Categorie", "Valide"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Object.class, Object.class, ImageIcon.class, Object.class, Object.class, Object.class, Boolean.class
+			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
-
-			boolean[] columnEditables = new boolean[] { false, false, false,
-					false, false, false, false };
-
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-
 		});
+		TableColumn column = table.getColumnModel().getColumn(1);
+		column.setPreferredWidth(550);
 	}
+	
+	
 
 }

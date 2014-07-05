@@ -226,6 +226,7 @@ public class ConnectFacebook {
 		user = user.createInstance("me");
 		parent.getName_fb().setText(user.getName());
 		parent.getEmail_fb().setText(user.getEmail());
+		parent.getPanel_operation().setVisible(true);
 		URL url = null;
 		try {
 			url = new URL(user.getPicture());
