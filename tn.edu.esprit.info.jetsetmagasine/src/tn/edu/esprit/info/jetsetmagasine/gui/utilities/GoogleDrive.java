@@ -1,11 +1,20 @@
 package tn.edu.esprit.info.jetsetmagasine.gui.utilities;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Date;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -20,145 +29,154 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
-import com.google.api.services.drive.model.ParentReference;
 
 public class GoogleDrive {
-	
-	private  String CLIENT_ID = "368769490067-qum1aq5ivsonh18af0rt3s4gsm6dee6a.apps.googleusercontent.com";
-	  private  String CLIENT_SECRET = "ck3zMBU65iTfjDWidvNn2C57";
 
-	  private  String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
-	  private String path;
-	
-	public GoogleDrive(String path) {
-		this.path = path;
+	private static String CLIENT_ID = "368769490067-qum1aq5ivsonh18af0rt3s4gsm6dee6a.apps.googleusercontent.com";
+	private static String CLIENT_SECRET = "ck3zMBU65iTfjDWidvNn2C57";
+
+	private static String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
+
+	private static Drive service = null;
+
+	public static void getService() throws IOException {
+		if (service == null) {
+			final HttpTransport httpTransport = new NetHttpTransport();
+			final JsonFactory jsonFactory = new JacksonFactory();
+
+			final GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
+					httpTransport, jsonFactory, CLIENT_ID, CLIENT_SECRET,
+					Arrays.asList(DriveScopes.DRIVE)).setAccessType("online")
+					.setApprovalPrompt("auto").build();
+
+			String url = flow.newAuthorizationUrl()
+					.setRedirectUri(REDIRECT_URI).build();
+			System.out
+					.println("Please open the following URL in your browser then type the authorization code:");
+			System.out.println("  " + url);
+
+			final JFrame frame = new JFrame();
+			JTextField addresse = new JTextField();
+			//addresse.setEnabled(false);
+			addresse.setText(url);
+
+			frame.add(addresse, BorderLayout.NORTH);
+
+			JPanel jPanel = new JPanel(new BorderLayout());
+			frame.add(jPanel, BorderLayout.CENTER);
+
+			final JTextField accessAdress = new JTextField();
+			JButton button = new JButton("Send");
+
+			jPanel.add(accessAdress, BorderLayout.NORTH);
+			jPanel.add(button, BorderLayout.EAST);
+
+			button.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					GoogleTokenResponse response;
+					try {
+						response = flow.newTokenRequest(accessAdress.getText())
+								.setRedirectUri(REDIRECT_URI).execute();
+						GoogleCredential credential = new GoogleCredential()
+								.setFromTokenResponse(response);
+
+						// Create a new authorized API client
+						service = new Drive.Builder(httpTransport, jsonFactory,
+								credential).build();
+						
+						JOptionPane.showMessageDialog(null,
+							    "Google Drive configuré",
+							    "félicitations",
+							    JOptionPane.INFORMATION_MESSAGE);
+						frame.dispose();
+					} catch (IOException e) {
+						JOptionPane.showMessageDialog(null,
+							    "Erreur Google Drive",
+							    "Erreur",
+							    JOptionPane.WARNING_MESSAGE);
+					}
+
+				}
+			});
+			
+			frame.setSize(400, 100);
+			frame.setVisible(true);
+			
+			//frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
 	}
-	
-	public String uplodeGoogleDrive() throws IOException{
-		
-		HttpTransport httpTransport = new NetHttpTransport();
-	    JsonFactory jsonFactory = new JacksonFactory();
-	   
-	    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-	        httpTransport, jsonFactory, CLIENT_ID, CLIENT_SECRET, Arrays.asList(DriveScopes.DRIVE))
-	        .setAccessType("online")
-	        .setApprovalPrompt("auto").build();
-	    
-	    String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
-	    System.out.println("Please open the following URL in your browser then type the authorization code:");
-	    System.out.println("  " + url);
-	    
-	    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	    String code = br.readLine();
-	    
-	    GoogleTokenResponse response = flow.newTokenRequest(code).setRedirectUri(REDIRECT_URI).execute();
-	    GoogleCredential credential = new GoogleCredential().setFromTokenResponse(response);
-	    
-	    //Create a new authorized API client
-	    Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).build();
 
-	    //Insert a file  
-	    File body = new File();
-	    body.setTitle(new Date().getTime()+"");
-	    //body.setDescription("A test document");
-	    body.setMimeType("image/jpeg");
-	    
-	    java.io.File fileContent = new java.io.File(path);
-	    FileContent mediaContent = new FileContent("image/jpeg", fileContent);
+	public static String uplodeGoogleDrive(String path) throws IOException {
 
-	    File file = service.files().insert(body, mediaContent).execute();
-	    System.out.println("File ID: " + file.getId());
-	    return file.getId();
-		
+		getService();
+
+		// Insert a file
+		File body = new File();
+		body.setTitle(new Date().getTime() + "");
+		// body.setDescription("A test document");
+		body.setMimeType("image/jpeg");
+
+		java.io.File fileContent = new java.io.File(path);
+		FileContent mediaContent = new FileContent("image/jpeg", fileContent);
+
+		File file = service.files().insert(body, mediaContent).execute();
+		System.out.println("File ID: " + file.getId());
+		return file.getId();
+
 	}
-	
-	//id = 0B7GNL_KltwuPRzdJdUd1bzlMMm8
-	
-	public  File printFile() {
 
-	    try {
-	    	
-	    	HttpTransport httpTransport = new NetHttpTransport();
-		    JsonFactory jsonFactory = new JacksonFactory();
-		   
-		    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-		        httpTransport, jsonFactory, CLIENT_ID, CLIENT_SECRET, Arrays.asList(DriveScopes.DRIVE))
-		        .setAccessType("online")
-		        .setApprovalPrompt("auto").build();
-		    
-		    String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
-		    System.out.println("Please open the following URL in your browser then type the authorization code:");
-		    System.out.println("  " + url);
-		    
-		    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		    String code = br.readLine();
-		    
-		    GoogleTokenResponse response = flow.newTokenRequest(code).setRedirectUri(REDIRECT_URI).execute();
-		    GoogleCredential credential = new GoogleCredential().setFromTokenResponse(response);
-		    
-		    //Create a new authorized API client
-		    Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).build();
-	    	
-	      File file = service.files().get(path).execute();
+	// id = 0B7GNL_KltwuPRzdJdUd1bzlMMm8
 
-	      System.out.println("Title: " + file.getTitle());
-	      System.out.println("Description: " + file.getDescription());
-	      System.out.println("MIME type: " + file.getMimeType());
-	      return file;
-	    } catch (IOException e) {
-	      System.out.println("An error occured: " + e);
-	      return null;
-	    }
-	  }
+	private static File printFile(String id) {
 
-	  /**
-	   * Download a file's content.
-	   *
-	   * @param service Drive API service instance.
-	   * @param file Drive File instance.
-	   * @return InputStream containing the file's content if successful,
-	   *         {@code null} otherwise.
-	 * @throws IOException 
-	   */
-	  public InputStream downloadFile(File file) throws IOException {
-		  
-		  HttpTransport httpTransport = new NetHttpTransport();
-		    JsonFactory jsonFactory = new JacksonFactory();
-		   
-		    GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-		        httpTransport, jsonFactory, CLIENT_ID, CLIENT_SECRET, Arrays.asList(DriveScopes.DRIVE))
-		        .setAccessType("online")
-		        .setApprovalPrompt("auto").build();
-		    
-		    String url = flow.newAuthorizationUrl().setRedirectUri(REDIRECT_URI).build();
-		    System.out.println("Please open the following URL in your browser then type the authorization code:");
-		    System.out.println("  " + url);
-		    
-		    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		    String code = br.readLine();
-		    
-		    GoogleTokenResponse response = flow.newTokenRequest(code).setRedirectUri(REDIRECT_URI).execute();
-		    GoogleCredential credential = new GoogleCredential().setFromTokenResponse(response);
-		    
-		    //Create a new authorized API client
-		    Drive service = new Drive.Builder(httpTransport, jsonFactory, credential).build();
-		  
-		  
-	    if (file.getDownloadUrl() != null && file.getDownloadUrl().length() > 0) {
-	      try {
-	        HttpResponse resp =
-	            service.getRequestFactory().buildGetRequest(new GenericUrl(file.getDownloadUrl()))
-	                .execute();
-	        return resp.getContent();
-	      } catch (IOException e) {
-	        // An error occurred.
-	        e.printStackTrace();
-	        return null;
-	      }
-	    } else {
-	      // The file doesn't have any content stored on Drive.
-	      return null;
-	    }
-	  }
+		try {
+
+			File file = service.files().get(id).execute();
+
+			System.out.println("Title: " + file.getTitle());
+			System.out.println("Description: " + file.getDescription());
+			System.out.println("MIME type: " + file.getMimeType());
+			return file;
+		} catch (IOException e) {
+			System.out.println("An error occured: " + e);
+			return null;
+		}
+	}
+
+	/**
+	 * Download a file's content.
+	 * 
+	 * @param service
+	 *            Drive API service instance.
+	 * @param file
+	 *            Drive File instance.
+	 * @return InputStream containing the file's content if successful,
+	 *         {@code null} otherwise.
+	 * @throws IOException
+	 */
+	public static InputStream downloadFile(String id) throws IOException {
+
+		getService();
+
+		File file = printFile(id);
+
+		if (file.getDownloadUrl() != null && file.getDownloadUrl().length() > 0) {
+			try {
+				HttpResponse resp = service.getRequestFactory()
+						.buildGetRequest(new GenericUrl(file.getDownloadUrl()))
+						.execute();
+				return resp.getContent();
+			} catch (IOException e) {
+				// An error occurred.
+				e.printStackTrace();
+				return null;
+			}
+		} else {
+			// The file doesn't have any content stored on Drive.
+			return null;
+		}
+	}
 
 }

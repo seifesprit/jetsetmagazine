@@ -3,12 +3,16 @@ package tn.edu.esprit.info.jetsetmagasine.gui.interframe;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -26,6 +30,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
 import tn.edu.esprit.info.jetsetmagasine.domain.Actuality;
+import tn.edu.esprit.info.jetsetmagasine.gui.utilities.GoogleDrive;
+import tn.edu.esprit.info.jetsetmagasine.services.business.impl.ActualityBusiness;
 import tn.edu.esprit.info.jetsetmagasine.services.dao.impl.ActualityDao;
 
 public class ActualityList extends JInternalFrame {
@@ -78,39 +84,31 @@ public class ActualityList extends JInternalFrame {
 		toolBar.add(btnUpdate);
 
 		JButton btnRemove = new JButton("Remove");
-		toolBar.add(btnRemove);
-
-		JButton btnShowImage = new JButton("Show image");
-
-		btnShowImage.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				BufferedImage img;
+		btnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 				try {
-					if (table.getSelectedRowCount() == 0)
+					if(table.getSelectedRowCount() == 0)
 						return;
-					Actuality actuality = ActualityDao.getInstanceof()
-							.findById(
-									Integer.parseInt(table.getValueAt(
-											table.getSelectedRow(), 0)
-											.toString()));
-
-					if (actuality.getImage() != null) {
-						img = ImageIO.read(new File(actuality.getImage()));
-						ImageIcon icon = new ImageIcon(img);
-						JLabel label = new JLabel(icon);
-						JOptionPane.showMessageDialog(null, label);
-					}
-
+					ActualityDao.getInstanceof().remove(
+							new Actuality(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()),
+									"", "", "", new Date() ,new Date(),false,"",null,null,""));
 					refreshTable();
 				} catch (Exception ee) {
 
 				}
-
 			}
 		});
-		toolBar.add(btnShowImage);
+		toolBar.add(btnRemove);
 
 		JButton btnValider = new JButton("Valider");
+		btnValider.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(table.getSelectedRowCount() == 0)
+					return;
+				ActualityBusiness.getIntanceof().changeValide(Integer.parseInt(table.getValueAt(table.getSelectedRow(), 0).toString()), ! Boolean.parseBoolean(table.getValueAt(table.getSelectedRow(), 6).toString()));
+				refreshTable();
+			}
+		});
 		toolBar.add(btnValider);
 
 		JPanel panel_1 = new JPanel();
@@ -148,22 +146,23 @@ public class ActualityList extends JInternalFrame {
 					int row = target.getSelectedRow();
 					int column = target.getSelectedColumn();
 					if (column == 2) {
-						BufferedImage img;
+
 						Actuality actuality = ActualityDao.getInstanceof().findById(Integer.parseInt(table.getValueAt(row, 0).toString()));
 						System.out.println("id ="+ table.getValueAt(row, 0).toString());
-						try{
-							if (actuality.getImage() != null) {
-								img = ImageIO.read(new File(actuality.getImage()));
-								ImageIcon icon = new ImageIcon(img);
-								JLabel label = new JLabel(icon);
-								JOptionPane.showMessageDialog(null, label);
-							}else{
-								System.out.println("no image");
-							}
+						InputStream is;
+						try {
+							is = GoogleDrive.downloadFile(actuality.getImage());
+							Image image = ImageIO.read(is);
+							ImageIcon icon = new ImageIcon(image);
+							JLabel label = new JLabel(icon);
+							JOptionPane.showMessageDialog(null, label);
 							
-						}catch(Exception ee){
-							System.err.println(ee);
-						}
+						} catch (IOException ee) {
+							JOptionPane.showMessageDialog(null,
+								    "Erreur Google Drive",
+								    "Erreur",
+								    JOptionPane.WARNING_MESSAGE);
+						}		
 					}
 				}
 			}

@@ -1,11 +1,14 @@
 package tn.edu.esprit.info.jetsetmagasine.services.dao.impl;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 import tn.edu.esprit.info.jetsetmagasine.domain.Actuality;
 import tn.edu.esprit.info.jetsetmagasine.services.dao.interfaces.IDaoGenerique;
@@ -26,45 +29,29 @@ public class ActualityDao implements IDaoGenerique<Actuality> {
 		Connection connection = DataBaseConnection.giveMyconnection();
 		try {
 
-			// java.util.Date date_ajout_Str =
-			// formatter.parse(act.getDate_ajout().toString());
 			java.sql.Date date_ajout_DB = new java.sql.Date(act.getDate_ajout()
 					.getTime());
 
-			// java.util.Date date_redation_Str =
-			// formatter.parse(act.getDate_redaction().toString());
 			java.sql.Date date_redaction_DB = new java.sql.Date(act
 					.getDate_redaction().getTime());
 
-			Statement statement = connection.createStatement();
-
-			String sql = "INSERT INTO actuality (titre,id_category,description,date_ajout,date_redaction,source,type,valide,image) values("
-					+ "'"
-					+ act.getTitre()
-					+ "',"
-					+ "'"
-					+ act.getCategory().getId_auto()
-					+ "',"
-					+ "'"
-					+ act.getDescription()
-					+ "',"
-					+ "'"
-					+ date_ajout_DB
-					+ "',"
-					+ "'"
-					+ date_redaction_DB
-					+ "',"
-					+ "'"
-					+ act.getSource()
-					+ "',"
-					+ "'"
-					+ act.getType()
-					+ "',"
-					+ ""
-					+ act.isValide()
-					+ "," + "'" + act.getImage() + "')";
-
-			statement.executeUpdate(sql);
+			String sql = "INSERT INTO actuality (titre,id_category,description,date_ajout,date_redaction,source,type,valide,image) "
+										+"values (?,?,?,?,?,?,?,?,?)";
+			
+			PreparedStatement  statement = connection.prepareStatement(sql);
+			
+			statement.setString(1, act.getTitre());
+			statement.setInt(2, act.getCategory().getId_auto());
+			statement.setString(3, act.getDescription());
+			statement.setDate(4, date_ajout_DB);
+			statement.setDate(5, date_redaction_DB);
+			statement.setString(6, act.getSource());
+			statement.setString(7, act.getType());
+			statement.setBoolean(8, act.isValide());
+			statement.setString(9, act.getImage());
+			
+			statement.executeUpdate();
+			
 			return true;
 
 		} catch (SQLException e) {

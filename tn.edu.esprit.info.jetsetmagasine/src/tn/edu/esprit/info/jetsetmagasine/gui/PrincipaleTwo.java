@@ -22,12 +22,14 @@ import tn.edu.esprit.info.jetsetmagasine.domain.Leader;
 import tn.edu.esprit.info.jetsetmagasine.gui.interframe.ActualityList;
 import tn.edu.esprit.info.jetsetmagasine.gui.interframe.CategoryList;
 import tn.edu.esprit.info.jetsetmagasine.gui.interframe.LeaderList;
+import tn.edu.esprit.info.jetsetmagasine.gui.utilities.GoogleDrive;
 
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -53,7 +55,7 @@ public class PrincipaleTwo extends JFrame {
 		JMenu mnNewMenu = new JMenu("File");
 		menuBar.add(mnNewMenu);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
+		JMenuItem mntmNewMenuItem = new JMenuItem("Quitter");
 		mnNewMenu.add(mntmNewMenuItem);
 		
 		JMenu mnData = new JMenu("Data");
@@ -101,6 +103,19 @@ public class PrincipaleTwo extends JFrame {
 		
 		//loading info leader
 		lblName.setText(leader.getNom_prenom());
+		
+		JButton btnConfigGoogleDrive = new JButton("Config Google Drive");
+		btnConfigGoogleDrive.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					GoogleDrive.getService();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		toolBar.add(btnConfigGoogleDrive);
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
