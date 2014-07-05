@@ -46,7 +46,7 @@ public class PrincipaleTwo extends JFrame {
 	 */
 	public PrincipaleTwo(Leader leader) {
 		this.leader = leader;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		setBounds(100, 100, 668, 377);
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -56,6 +56,11 @@ public class PrincipaleTwo extends JFrame {
 		menuBar.add(mnNewMenu);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Quitter");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 		mnNewMenu.add(mntmNewMenuItem);
 		
 		JMenu mnData = new JMenu("Data");

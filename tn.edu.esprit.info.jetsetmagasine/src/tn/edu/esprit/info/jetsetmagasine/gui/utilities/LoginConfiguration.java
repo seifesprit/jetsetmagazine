@@ -29,6 +29,8 @@ import tn.edu.esprit.info.jetsetmagasine.services.business.impl.LeaderBusiness;
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class LoginConfiguration extends JFrame {
 
@@ -50,6 +52,13 @@ public class LoginConfiguration extends JFrame {
 	 * Create the frame.
 	 */
 	private LoginConfiguration(Principale parent2) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent arg0) {
+				textField_login.setText("");
+				textField_password.setText("");
+			}
+		});
 		this.parent = parent2;
 		setResizable(false);
 		setType(Type.POPUP);
