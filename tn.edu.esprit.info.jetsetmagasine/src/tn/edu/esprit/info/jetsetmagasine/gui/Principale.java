@@ -36,6 +36,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import tn.edu.esprit.info.jetsetmagasine.gui.model.MyTableModel;
+import tn.edu.esprit.info.jetsetmagasine.gui.utilities.About;
 import tn.edu.esprit.info.jetsetmagasine.gui.utilities.ConnectFacebook;
 import tn.edu.esprit.info.jetsetmagasine.gui.utilities.LoginConfiguration;
 
@@ -239,6 +240,12 @@ public class Principale extends JFrame implements TableModelListener {
 				".\\resource\\configuration.png"));
 		
 		JButton btnabout = new JButton("?");
+		btnabout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				About about = new About();
+				about.setVisible(true);
+			}
+		});
 		btnabout.setFont(new Font("Tahoma", Font.BOLD, 12));
 		toolBar.add(btnabout);
 		
