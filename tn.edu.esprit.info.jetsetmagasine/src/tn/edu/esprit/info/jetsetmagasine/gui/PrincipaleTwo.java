@@ -48,7 +48,7 @@ public class PrincipaleTwo extends JFrame {
 		this.leader = leader;
 		
 		setBounds(100, 100, 668, 377);
-		
+		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
